@@ -37,10 +37,11 @@ const PopupForm = ({ onClose }) => {
         console.log("this is form data ", formData);
     };
     
+    
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="relative z-10 overflow-hidden pb-16 pt-36 md:pb-20 lg:pb-28 lg:pt-[180px]">
-                <div className="container">
+            <div className="relative z-10 pb-16 pt-36 md:pb-20 lg:pb-28 lg:pt-[180px] MbView">
+                <div className="container mx-auto px-4">
                     <div className="-mx-4 flex flex-wrap ">
                         <div className="w-full px-4">
                             <div className="shadow-three mx-auto max-w-[650px] rounded-3xl bg-white px-6 py-10 dark:bg-dark sm:p-[50px]">                                
@@ -78,7 +79,7 @@ const PopupForm = ({ onClose }) => {
                                                 Mobile Number
                                             </label>
                                             <input
-                                                type="text"
+                                                type="number"
                                                 name="mobileNumber"
                                                 placeholder="Enter your mobile number"
                                                 className="border-stroke dark:text-body-color-dark dark:shadow-two w-full rounded-xl border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
@@ -285,8 +286,7 @@ const BookNowButton = () => {
         <div>
             <button
                 onClick={handleOpenPopup}
-                className="fixed bottom-20 right-10 bg-primary p-4 text-white rounded-full"
-            >
+                className="fixed bottom-20 right-10 bg-primary p-4 text-white rounded-full">
                 Book Now
             </button>
             {isPopupOpen && <PopupForm onClose={handleClosePopup} />}
