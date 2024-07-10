@@ -32,28 +32,33 @@ const PackageForm = ({ params }) => {
             <div className="flex flex-wrap my-14">
               <div className="w-full md:w-1/3 px-2">
               <Link href={"/gallery"}>
-                <img src={packageDetails.images[0]} alt={`${packageDetails.name} 1`} className="w-full h-auto rounded-2xl" /></Link>
+                <img src={packageDetails.images[0]} alt={`${packageDetails.name} 1`} className="w-full h-auto rounded-2xl shadow-lg hover:shadow-2xl transition-shadow duration-300" /></Link>
               </div>
-              <div className="w-full md:w-2/3 flex flex-wrap">
+              <div className="w-full my-4 md:w-2/3 flex flex-wrap">
                 {packageDetails.images.slice(1, 5).map((image, index) => (
                   <div key={index} className="w-1/2 md:w-1/3 px-2 mb-4"><Link href={"/gallery"}>
-                    <img src={image} alt={`${packageDetails.name} ${index + 2}`} className="w-full h-auto rounded-3xl" /></Link>
+                    <img src={image} alt={`${packageDetails.name} ${index + 2}`} className="w-full h-auto rounded-3xl shadow-md hover:shadow-lg transition-shadow duration-300" /></Link>
                   </div>
                 ))}
               </div>
             </div>
-            <div className="wow fadeInUp mx-auto max-w-[800px] text-center" data-wow-delay=".2s">
-              <p className="dark:text-body-color-dark mb-12 text-base !leading-relaxed text-body-color sm:text-lg md:text-xl">
+            <div className="wow fadeInUp mx-auto max-w-[800px] text-center p-6 rounded-lg shadow-md" data-wow-delay=".2s">
+              <p className="dark:text-body-color-dark mb-8 text-lg font-semibold text-gray-800 leading-relaxed sm:text-lg md:text-xl">
                 {packageDetails.duration}, {packageDetails.locations} <br />
-                {packageDetails.price}
+              </p>
+              <p className="text-xl font-bold text-teal-600 mb-8">
+                {packageDetails.price}                
               </p>
               <ul className="list-disc list-inside text-left mx-auto mb-6">
                 {packageDetails.includes.map((include, index) => (
-                  <li key={index}>{include}</li>
+                  <li key={index} className="flex items-center mb-2 text-dark dark:text-white">
+                    <svg className="w-5 h-5 mr-2 text-teal-600" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M10 15a1 1 0 01-.707-.293l-5-5a1 1 0 011.414-1.414L10 12.586l4.293-4.293a1 1 0 011.414 1.414l-5 5A1 1 0 0110 15z" />
+                    </svg>
+                    {include}</li>
                 ))}
               </ul>
             </div>
-            {/* <FormComponent/> */}
             <BookNowButton />
           </div>
         </div>

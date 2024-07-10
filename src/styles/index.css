@@ -15,6 +15,13 @@
     @apply inline-flex;
   }
 
+  @media (max-width: 950px) {
+    .MbView {
+      max-height: 100vh;
+      overflow-y: auto;
+    }
+  }
+
   .sticky .header-logo {
     @apply py-5 lg:py-2;
   }
