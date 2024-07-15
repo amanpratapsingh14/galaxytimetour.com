@@ -30,7 +30,7 @@ const packageData: Destination[] = [
     id: 5,
     title: "Koh Samui",
     paragraph: "Uncover the paradise of Koh Samui with its natural beauty, rich cultural heritage, and historical attractions waiting to be explored.",
-    image: "/koh_samui/koh_samui-6.png",
+    image: "/koh_samui/koh_samui-5.png",
   },
   {
     id: 6,
