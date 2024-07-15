@@ -140,7 +140,7 @@ const PopupForm = React.memo(({ onClose }: { onClose: () => void }) => {
                                             className="border-stroke dark:text-body-color-dark dark:shadow-two w-full rounded-xl border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
                                             />
                                             {formik.touched.travelDate && formik.errors.travelDate ? (                                                
-                                            <div className="text-red-600">{formik.errors.travelDate}</div>) : null}
+                                            <div className="text-red-600">{formik.errors.travelDate as string}</div>) : null}
                                         </div>
                                     </div>
                                     <div className="mb-8 grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -271,27 +271,23 @@ const PopupForm = React.memo(({ onClose }: { onClose: () => void }) => {
                                             ) : null}
                                         </div>
                                     </div>
-                                    <div className="mb-8 grid grid-cols-1 md:grid-cols-2 gap-4">
-                                        <div>
-                                            <label className="mb-3 block text-sm text-dark dark:text-white">
-                                                Meals
-                                            </label>
-                                            <div className="flex flex-col space-y-3">
-                                                {["breakfast", "lunch", "dinner"].map((meal) => (
-                                                    <label key={meal} className="flex items-center">
-                                                        <input
-                                                            type="checkbox"
-                                                            name={meal}
-                                                            checked={formik.values.meals[meal as keyof Meals]}
-                                                            onChange={handleMealChange}
-                                                            className="mr-2"
-                                                        />
-                                                        {meal.charAt(0).toUpperCase() + meal.slice(1)}
-                                                    </label>
-                                                ))}
-                                            </div>
+                                    <div className="mb-8 grid grid-flow-row md:grid-cols-1 gap-4">
+                                    <div>
+                                        <label className="mb-3 block text-sm text-dark dark:text-white">
+                                            Meals
+                                        </label>
+                                        <div className="flex flex-row space-x-3">
+                                            {["breakfast", "lunch", "dinner"].map((meal) => (
+                                                <label key={meal} className="flex items-center">
+                                                    <input type="checkbox" name={meal}
+                                                    checked={formik.values.meals[meal as keyof Meals]} 
+                                                    onChange={handleMealChange} className="mr-2"/>
+                                                    {meal.charAt(0).toUpperCase() + meal.slice(1)}
+                                                </label>
+                                            ))}
                                         </div>
                                     </div>
+                                </div>
                                     <div className="flex justify-center space-x-4">
                                         <button
                                             type="button"
