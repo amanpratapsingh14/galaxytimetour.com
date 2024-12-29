@@ -23,11 +23,11 @@ export const packagesData: Package[] = [
       "Guided tours and activities"
     ],
     images: [
-      "/pattaya/pattaya-1.png",
-      "/pattaya/pattaya-2.png",
-      "/pattaya/pattaya-3.png",
-      "/pattaya/pattaya-4.png",
-      "/pattaya/pattaya-5.png",
+      "/pattaya/pattaya_1.png",
+      "/pattaya/pattaya_2.png",
+      "/pattaya/pattaya_3.png",
+      "/pattaya/pattaya_4.png",
+      "/pattaya/pattaya_5.png",
     ]
   },
   {
@@ -44,11 +44,11 @@ export const packagesData: Package[] = [
       "Guided tours and activities"
     ],
     images: [
-      "/bangkok/bgk-1.png",
-      "/bangkok/bgk-2.png",
-      "/bangkok/bgk-3.png",
-      "/bangkok/bgk-4.png",
-      "/bangkok/bgk-5.png",
+      "/bangkok/bgk_1.png",
+      "/bangkok/bgk_2.png",
+      "/bangkok/bgk_3.png",
+      "/bangkok/bgk_4.png",
+      "/bangkok/bgk_5.png",
     ]
   },
   {
@@ -65,11 +65,11 @@ export const packagesData: Package[] = [
       "Guided tours and activities"
     ],
     images: [
-      "/phuket/phuket-1.png",
-      "/phuket/phuket-2.png",
-      "/phuket/phuket-3.png",
-      "/phuket/phuket-4.png",
-      "/phuket/phuket-5.png",
+      "/phuket/phuket_1.png",
+      "/phuket/phuket_2.png",
+      "/phuket/phuket_3.png",
+      "/phuket/phuket_4.png",
+      "/phuket/phuket_5.png",
     ]
   },
   {
@@ -86,11 +86,11 @@ export const packagesData: Package[] = [
       "Guided tours and activities"
     ],
     images: [
-      "/krabi/krabi-1.png",
-      "/krabi/krabi-2.png",
-      "/krabi/krabi-3.png",
-      "/krabi/krabi-4.png",
-      "/krabi/krabi-5.png",
+      "/krabi/krabi_1.png",
+      "/krabi/krabi_2.png",
+      "/krabi/krabi_3.png",
+      "/krabi/krabi_4.png",
+      "/krabi/krabi_5.png",
     ]
   },
   {
@@ -107,11 +107,11 @@ export const packagesData: Package[] = [
       "Guided tours and activities"
     ],
     images: [
-      "/koh_samui/koh_samui-1.png",
-      "/koh_samui/koh_samui-2.png",
-      "/koh_samui/koh_samui-3.png",
-      "/koh_samui/koh_samui-4.png",
-      "/koh_samui/koh_samui-5.png",
+      "/koh_samui/koh_samui_1.png",
+      "/koh_samui/koh_samui_2.png",
+      "/koh_samui/koh_samui_3.png",
+      "/koh_samui/koh_samui_4.png",
+      "/koh_samui/koh_samui_5.png",
     ]
   },
   {
@@ -128,11 +128,11 @@ export const packagesData: Package[] = [
       "Guided tours and activities"
     ],
     images: [
-      "/chiang_mai/chiang_mai-1.png",
-      "/chiang_mai/chiang_mai-2.png",
-      "/chiang_mai/chiang_mai-3.png",
-      "/chiang_mai/chiang_mai-4.png",
-      "/chiang_mai/chiang_mai-5.png",
+      "/chiang_mai/chiang_mai_1.png",
+      "/chiang_mai/chiang_mai_2.png",
+      "/chiang_mai/chiang_mai_3.png",
+      "/chiang_mai/chiang_mai_4.png",
+      "/chiang_mai/chiang_mai_5.png",
     ]
   },
   {
@@ -149,11 +149,11 @@ export const packagesData: Package[] = [
       "Guided tours and activities"
     ],
     images: [
-      "/hua_hin/hua_hin-1.png",
-      "/hua_hin/hua_hin-2.png",
-      "/hua_hin/hua_hin-3.png",
-      "/hua_hin/hua_hin-4.png",
-      "/hua_hin/hua_hin-5.png",
+      "/hua_hin/hua_hin_1.png",
+      "/hua_hin/hua_hin_2.png",
+      "/hua_hin/hua_hin_3.png",
+      "/hua_hin/hua_hin_4.png",
+      "/hua_hin/hua_hin_5.png",
     ]
   },
 ];

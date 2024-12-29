@@ -1,25 +1,23 @@
+import { Metadata } from "next";
 import SingleDestination from "@/components/Destination/SingleDestination";
 import packageData from "@/components/Destination/packageData";
 import Breadcrumb from "@/components/Common/Breadcrumb";
 
-import { Metadata } from "next";
-
 export const metadata: Metadata = {
-  title: "GalaxyTimeTour",
-  description: "GalaxyTimeTour | Destinations",
+  title: "GalaxyTimeTour | Destinations",
+  description: "Our perfect package lists for your next adventure",
 };
 
-
-const Destination = () => {
+export default function DestinationPage() {
   return (
     <>
       <Breadcrumb
         pageName="Destinations"
-        description="Our prefect packages lists"
+        description="Our perfect packages list"
       />
-      <section className="pb-[120px] pt-[120px]">
+      <section className="py-[120px]">
         <div className="container">
-          <div className="-mx-4 flex flex-wrap justify-center">
+          <div className="flex flex-wrap justify-center -mx-4">
             {packageData.map((destination) => (
               <div
                 key={destination.id}
@@ -29,11 +27,8 @@ const Destination = () => {
               </div>
             ))}
           </div>
-          
         </div>
       </section>
     </>
   );
-};
-
-export default Destination;
+}

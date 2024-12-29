@@ -1,10 +1,12 @@
 "use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
-import ThemeToggler from "./ThemeToggler";
+import { useEffect, useState, lazy, Suspense } from "react";
 import menuData from "./menuData";
+
+const ThemeToggler = lazy(() => import("./ThemeToggler"));
 
 const Header = () => {
   // Navbar toggle
@@ -23,9 +25,10 @@ const Header = () => {
   };
   useEffect(() => {
     window.addEventListener("scroll", handleStickyNavbar);
-  });
+    return () => window.removeEventListener("scroll", handleStickyNavbar); // Cleanup listener
+  }, []);
 
-  // submenu handler
+  // Submenu handler
   const [openIndex, setOpenIndex] = useState(-1);
   const handleSubmenu = (index) => {
     if (openIndex === index) {
@@ -39,7 +42,8 @@ const Header = () => {
 
   return (
     <>
-      <header className={`header left-0 top-0 z-40 flex w-full items-center ${
+      <header
+        className={`header left-0 top-0 z-40 flex w-full items-center ${
           sticky
             ? "dark:bg-gray-dark dark:shadow-sticky-dark fixed z-[9999] bg-white !bg-opacity-80 shadow-sticky backdrop-blur-sm transition"
             : "absolute bg-transparent"
@@ -55,17 +59,17 @@ const Header = () => {
                 } `}
               >
                 <Image
-                  src="/logo-1.png"
+                  src="/logo_1.png"
                   alt="logo"
-                  width={140}
-                  height={30}
+                  width={120}
+                  height={52}
                   className="w-full dark:hidden"
                 />
                 <Image
-                  src="/logo-1.png"
+                  src="/logo_1.png"
                   alt="logo"
-                  width={140}
-                  height={30}
+                  width={120}
+                  height={52}
                   className="hidden w-full dark:block"
                 />
               </Link>
@@ -156,13 +160,17 @@ const Header = () => {
                   </ul>
                 </nav>
               </div>
-              <div className="flex items-center justify-end pr-16 lg:pr-0">                
-                <Link href="/contact"
-                  className="ease-in-up shadow-btn hover:shadow-btn-hover hidden rounded-sm bg-primary px-8 py-3 text-base font-medium text-white transition duration-300 hover:bg-opacity-90 md:block md:px-9 lg:px-6 xl:px-9">
+              <div className="flex items-center justify-end pr-16 lg:pr-0">
+                <Link
+                  href="/contact"
+                  className="ease-in-up shadow-btn hover:shadow-btn-hover hidden rounded-sm bg-primary px-8 py-3 text-base font-medium text-white transition duration-300 hover:bg-opacity-90 md:block md:px-9 lg:px-6 xl:px-9"
+                >
                   Send Us Your Enquiry
                 </Link>
                 <div>
-                  <ThemeToggler />
+                  <Suspense fallback={<div>Loading Theme...</div>}>
+                    <ThemeToggler />
+                  </Suspense>
                 </div>
               </div>
             </div>

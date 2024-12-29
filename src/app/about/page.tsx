@@ -14,7 +14,9 @@ const AboutPage = () => {
     <>
       <Breadcrumb
         pageName="About Page"
-        description="We Give Top Quality Service To Our Clients With A Sense Of Warmth, Friendliness . We Provide Them A Kind Of Trip Which They Can Not Forget. We Aim To Earn Our Clients Trust By Providing Them Highest Quality Of Service."
+        description="We Give Top Quality Service To Our Clients With A Sense Of Warmth, Friendliness.
+         We Provide Them A Kind Of Trip Which They Can Not Forget. 
+         We Aim To Earn Our Clients Trust By Providing Them Highest Quality Of Service."
       />
       <AboutSection />
     </>

@@ -10,17 +10,17 @@ export default function Footer() {
         <Link href="#" className="flex items-center gap-2" prefetch={false}>
         <div className="w-60 max-w-full px-2 xl:mr-12">
             <Image
-                  src="/logo-1.png"
+                  src="/logo_1.png"
                   alt="logo"
-                  width={140}
-                  height={30}
+                  width={120}
+                  height={52}
                   className="w-full dark:hidden"
                 />
               <Image
-                  src="/logo-1.png"
+                  src="/logo_1.png"
                   alt="logo"
-                  width={140}
-                  height={30}
+                  width={120}
+                  height={52}
                   className="hidden w-full dark:block"
                 />
             </div>
@@ -30,7 +30,7 @@ export default function Footer() {
           </p>
         </div>
         <div className="grid gap-2 ml-8">
-          <h4 className="text-lg font-semibold">Quick Links</h4>
+          <h3 className="text-lg font-semibold">Quick Links</h3>
           <Link href="/about" className="text-muted-foreground hover:underline" prefetch={false}>
             About
           </Link>
@@ -42,21 +42,36 @@ export default function Footer() {
           </Link>
         </div>
         <div className="grid gap-2 mx-1">
-          <h4 className="text-lg font-semibold">Connect with Us</h4>
+          <h3 className="text-lg font-semibold">Connect with Us</h3>
           <div className="flex gap-4">
-            <Link href="http://www.facebook.com/galaxytimetour" className="text-muted-foreground hover:text-primary" prefetch={false}>
+            <Link
+              href="http://www.facebook.com/galaxytimetour"
+              className="text-muted-foreground hover:text-primary"
+              prefetch={false}
+              aria-label="Visit Galaxy Time Tour on Facebook"
+            >
               <FacebookIcon className="h-6 w-6" />
             </Link>
-            <Link href="http://www.twitter.com/galaxytimetour" className="text-muted-foreground hover:text-primary" prefetch={false}>
+            <Link
+              href="http://www.twitter.com/galaxytimetour"
+              className="text-muted-foreground hover:text-primary"
+              prefetch={false}
+              aria-label="Visit Galaxy Time Tour on Twitter"
+            >
               <TwitterIcon className="h-6 w-6" />
             </Link>
-            <Link href="https://www.youtube.com/@galaxytimetour7379" className="text-muted-foreground hover:text-red-800" prefetch={false}>
+            <Link
+              href="https://www.youtube.com/@galaxytimetour7379"
+              className="text-muted-foreground hover:text-red-800"
+              prefetch={false}
+              aria-label="Visit Galaxy Time Tour on YouTube"
+            >
               <YoutubeIcon className="h-6 w-6" />
             </Link>
           </div>
         </div>
         <div className="grid gap-2">
-          <h4 className="text-lg font-semibold">Contact</h4>
+          <h3 className="text-lg font-semibold">Contact</h3>
           <div className="flex items-start gap-2">
             <MapPinIcon className="h-14 w-14 text-muted-foreground mt-1.5" />
             <p className="text-muted-foreground">63/11 Moo 1, Nongplalai Banglamung, Chonburi Pattaya 20150 (Thailand)</p>
