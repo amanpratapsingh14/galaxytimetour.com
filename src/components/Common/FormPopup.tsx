@@ -135,9 +135,10 @@ const PopupForm = React.memo(({ onClose }: { onClose: () => void }) => {
                                                 Travel Date
                                             </label>                                            
                                             <DatePicker placeholderText="01/01/1999"
-                                            selected={formik.values.travelDate}
-                                            onChange={(date) => formik.setFieldValue("travelDate", date)}
-                                            className="border-stroke dark:text-body-color-dark dark:shadow-two w-full rounded-xl border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
+                                                selected={formik.values.travelDate}
+                                                onChange={(date: [Date, Date]) => formik.setFieldValue("travelDate", date)}
+                                                selectsRange 
+                                                className="border-stroke dark:text-body-color-dark dark:shadow-two w-full rounded-xl border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none transition-all duration-300 focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
                                             />
                                             {formik.touched.travelDate && formik.errors.travelDate ? (                                                
                                             <div className="text-red-600">{formik.errors.travelDate as string}</div>) : null}
@@ -313,6 +314,8 @@ const PopupForm = React.memo(({ onClose }: { onClose: () => void }) => {
     );
 });
 
+PopupForm.displayName = "PopupForm";
+
 const BookNowButton = () => {
     const [isFormOpen, setFormOpen] = useState(false);
 
@@ -326,7 +329,8 @@ const BookNowButton = () => {
 
     return (
         <div className="flex items-center justify-center m-4">            
-            <button onClick={handleButtonClick} className="rounded-full bg-primary mt-10 px-8 py-3 text-white">
+            <button onClick={handleButtonClick}
+               className="rounded-full bg-primary mt-10 px-8 py-3 text-white hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary">
                 Book Now
             </button>
             {isFormOpen && <PopupForm onClose={handleCloseForm} />}

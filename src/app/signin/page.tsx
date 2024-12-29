@@ -144,8 +144,7 @@ const SigninPage = () => {
                       </label>
                     </div>
                     <div>
-                      <a
-                        href="#0"
+                      <a href="#0"
                         className="text-sm font-medium text-primary hover:underline"
                       >
                         Forgot Password?

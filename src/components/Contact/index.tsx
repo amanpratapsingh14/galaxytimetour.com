@@ -60,8 +60,10 @@ const ContactForm = () => {
                                             </label>
                                             <input
                                                 type="text"
+                                                id="name"
                                                 name="name"
                                                 placeholder="Enter your name"
+                                                autoComplete="name"
                                                 className="border-stroke w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:text-body-color-dark dark:shadow-two dark:focus:border-primary dark:focus:shadow-none"
                                                 value={formik.values.name}
                                                 onChange={formik.handleChange}
@@ -82,8 +84,10 @@ const ContactForm = () => {
                                             </label>
                                             <input
                                                 type="email"
+                                                id="email"
                                                 name="email"
                                                 placeholder="Enter your email"
+                                                autoComplete="email"
                                                 className="border-stroke w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:text-body-color-dark dark:shadow-two dark:focus:border-primary dark:focus:shadow-none"
                                                 value={formik.values.email}
                                                 onChange={formik.handleChange}
@@ -103,9 +107,11 @@ const ContactForm = () => {
                                                 Your Message
                                             </label>
                                             <textarea
+                                                id="message"
                                                 name="message"
                                                 rows={5}
                                                 placeholder="Enter your Query"
+                                                autoComplete="off"
                                                 className="border-stroke w-full resize-none rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:text-body-color-dark dark:shadow-two dark:focus:border-primary dark:focus:shadow-none"
                                                 value={formik.values.message}
                                                 onChange={formik.handleChange}
