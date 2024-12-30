@@ -2,7 +2,7 @@
 const nextConfig = {
   productionBrowserSourceMaps: true,
   images: {
-    domains: ["localhost"],
+    domains: ["localhost", "www.galaxytimetour.com"],
     remotePatterns: [
       {
         protocol: "https",
@@ -10,6 +10,21 @@ const nextConfig = {
         port: "",
       },
     ],
+  },
+  webpack(config, { isServer }) {
+    if (!isServer) {
+      config.optimization.minimize = true; // Ensure minification in production
+      config.optimization.minimizer = [
+        new (require('terser-webpack-plugin'))({
+          terserOptions: {
+            compress: {
+              drop_console: true, // Removes console logs in production
+            },
+          },
+        }),
+      ];
+    }
+    return config;
   },
 };
 
