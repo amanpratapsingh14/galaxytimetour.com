@@ -2,11 +2,11 @@
 const nextConfig = {
   productionBrowserSourceMaps: true,
   images: {
-    domains: ["localhost", "www.galaxytimetour.com"],
+    domains: ["localhost", "https://www.galaxytimetour.com"],
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "www.galaxytimetour.com",
+        hostname: "https://www.galaxytimetour.com",
         port: "",
       },
     ],
@@ -24,6 +24,12 @@ const nextConfig = {
         }),
       ];
     }
+    config.resolve.fallback = {
+      ...(config.resolve.fallback || {}),
+      fs: false, // Prevent 'fs' module errors in client-side code
+      path: false, // Prevent 'path' module errors in client-side code
+    };
+
     return config;
   },
 };
