@@ -26,23 +26,21 @@ export default function ImageGallery() {
                   width={image.width} 
                   height={image.height}
                   alt={image.alt} 
-                  className="aspect-[3/2] w-full object-cover rounded-xl"
-                  layout="responsive" 
-                  objectFit="cover" 
+                  className="aspect-[3/2] w-full rounded-xl"
+                  style={{ objectFit: 'cover' }}
                   priority={index < 4} 
                 />
               ) : (
                 <Link href="/gallery" passHref>
-                    <Image 
-                      src={image.src} 
-                      width={image.width} 
-                      height={image.height}
-                      alt={image.alt} 
-                      className="aspect-[3/2] w-full object-cover rounded-xl"
-                      layout="responsive" 
-                      objectFit="cover" 
-                      priority={index < 4} 
-                    />                  
+                  <Image 
+                    src={image.src} 
+                    width={image.width} 
+                    height={image.height}
+                    alt={image.alt} 
+                    className="aspect-[3/2] w-full rounded-xl"
+                    style={{ objectFit: 'cover' }}
+                    priority={index < 4} 
+                  />                  
                 </Link>
               )}
             </div>
