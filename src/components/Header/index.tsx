@@ -40,6 +40,10 @@ const Header = () => {
 
   const usePathName = usePathname();
 
+  useEffect(() => {
+    setNavbarOpen(false);
+  }, [usePathName]);
+
   return (
     <>
       <header
@@ -117,6 +121,7 @@ const Header = () => {
                                 ? "text-primary dark:text-white"
                                 : "text-dark hover:text-primary dark:text-white/70 dark:hover:text-white"
                             }`}
+                            onClick={() => setNavbarOpen(false)}
                           >
                             {menuItem.title}
                           </Link>
@@ -148,6 +153,7 @@ const Header = () => {
                                   href={submenuItem.path}
                                   key={index}
                                   className="block rounded py-2.5 text-sm text-dark hover:text-primary dark:text-white/70 dark:hover:text-white lg:px-3"
+                                  onClick={() => setNavbarOpen(false)}
                                 >
                                   {submenuItem.title}
                                 </Link>
@@ -164,6 +170,7 @@ const Header = () => {
                 <Link
                   href="/contact"
                   className="ease-in-up shadow-btn hover:shadow-btn-hover hidden rounded-sm bg-primary px-8 py-3 text-base font-medium text-white transition duration-300 hover:bg-opacity-90 md:block md:px-9 lg:px-6 xl:px-9"
+                  onClick={() => setNavbarOpen(false)}
                 >
                   Send Us Your Enquiry
                 </Link>
