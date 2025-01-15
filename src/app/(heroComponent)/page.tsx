@@ -25,9 +25,9 @@ export default function SectionHero() {
           <h1 className="text-3xl md:text-5xl font-bold text-white mb-4">
             {TITLE_TEXT}
           </h1>
-          <p className="text-lg md:text-xl text-white mb-8 max-w-2xl">
+{/*           <p className="text-lg md:text-xl text-white mb-8 max-w-2xl">
             {SUBTITLE_TEXT}
-          </p>
+          </p> */}
           <Link 
             href="/contact"
             className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-gray-800 shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary disabled:pointer-events-none disabled:opacity-50"
