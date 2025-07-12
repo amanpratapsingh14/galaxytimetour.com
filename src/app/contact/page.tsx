@@ -1,3 +1,5 @@
+"use client"
+
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -6,23 +8,25 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import { Clock, Mail, MapPin, MessageSquare, Phone } from "lucide-react"
+import Image from "next/image"
+import { useState } from "react"
 
 export default function ContactUs() {
   const contactInfo = [
     {
       icon: <Phone className="w-5 h-5" />,
       title: "Phone",
-      details: ["+1 (555) 123-4567", "+1 (555) 765-4321"],
+      details: ["+66-951123458", "+66-618800005", "+91 9871171680"],
     },
     {
       icon: <Mail className="w-5 h-5" />,
       title: "Email",
-      details: ["info@travelcompany.com", "support@travelcompany.com"],
+      details: ["info@galaxytimetour.com", "ali@galaxytimetour.com"],
     },
     {
       icon: <MapPin className="w-5 h-5" />,
       title: "Office",
-      details: ["123 Travel Street", "San Francisco, CA 94105"],
+      details: ["145, 24, Muang Pattaya, Bang Lamung District, Chon Buri 20150, Thailand"],
     },
     {
       icon: <Clock className="w-5 h-5" />,
@@ -31,16 +35,84 @@ export default function ContactUs() {
     },
   ]
 
+  const [formData, setFormData] = useState({
+    "first-name": "",
+    "last-name": "",
+    email: "",
+    phone: "",
+    preferredContactMethod: "email",
+    inquiryType: "",
+    message: "",
+  });
+  const [status, setStatus] = useState<null | 'success' | 'error'>(null);
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSelectChange = (value: string) => {
+    setFormData((prev) => ({ ...prev, inquiryType: value }));
+  };
+
+  const handleRadioChange = (value: string) => {
+    setFormData((prev) => ({ ...prev, preferredContactMethod: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setStatus(null);
+    try {
+      const res = await fetch('/api/form-submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...formData, formType: 'contact' }),
+      });
+      if (res.ok) {
+        setStatus('success');
+        setFormData({
+          "first-name": "",
+          "last-name": "",
+          email: "",
+          phone: "",
+          preferredContactMethod: "email",
+          inquiryType: "",
+          message: "",
+        });
+      } else {
+        setStatus('error');
+      }
+    } catch {
+      setStatus('error');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <section className="bg-primary/5 py-12">
-        <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl font-bold tracking-tight mb-4">Get in Touch</h1>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+      <section className="relative h-[50vh]">
+        <div className="absolute inset-0">
+          <Image
+            src="/ImgGallery/package_8.png"
+            alt="Thailand landscape"
+            fill
+            className="object-cover"
+            priority
+            sizes="10vw"
+            quality={100}
+          />
+          <div className="absolute inset-0 bg-black/50" />
+        </div>
+        <div className="container mx-auto px-4 relative h-full flex flex-col items-center justify-center text-center">
+          <h1 className="text-4xl font-bold tracking-tight mb-4 text-white">Get in Touch</h1>
+          <p className="text-lg text-white/90 max-w-2xl mx-auto">
             We&apos;re here to help you plan your perfect trip.
           </p>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-lg text-white/90 max-w-2xl mx-auto">
             Let&apos;s create your dream vacation together.
           </p>
         </div>
@@ -74,7 +146,7 @@ export default function ContactUs() {
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto">
             <Card className="p-6">
-              <form className="space-y-6">
+              <form className="space-y-6" onSubmit={handleSubmit}>
                 <div className="space-y-2">
                   <h2 className="text-2xl font-bold tracking-tight">Send us a Message</h2>
                   <p className="text-muted-foreground">
@@ -85,27 +157,27 @@ export default function ContactUs() {
                 <div className="grid gap-4 sm:grid-cols-2">
                   <div className="space-y-2">
                     <Label htmlFor="first-name">First name</Label>
-                    <Input id="first-name" placeholder="Enter your first name" />
+                    <Input id="first-name" name="first-name" placeholder="Enter your first name" value={formData["first-name"]} onChange={handleChange} />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="last-name">Last name</Label>
-                    <Input id="last-name" placeholder="Enter your last name" />
+                    <Input id="last-name" name="last-name" placeholder="Enter your last name" value={formData["last-name"]} onChange={handleChange} />
                   </div>
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="email">Email</Label>
-                  <Input id="email" placeholder="Enter your email" type="email" />
+                  <Input id="email" name="email" placeholder="Enter your email" type="email" value={formData.email} onChange={handleChange} />
                 </div>
 
                 <div className="space-y-2">
                   <Label htmlFor="phone">Phone number</Label>
-                  <Input id="phone" placeholder="Enter your phone number" type="tel" />
+                  <Input id="phone" name="phone" placeholder="Enter your phone number" type="tel" value={formData.phone} onChange={handleChange} />
                 </div>
 
                 <div className="space-y-2">
                   <Label>Preferred contact method</Label>
-                  <RadioGroup defaultValue="email" className="flex gap-4">
+                  <RadioGroup value={formData.preferredContactMethod} onValueChange={handleRadioChange} className="flex gap-4">
                     <div className="flex items-center space-x-2">
                       <RadioGroupItem value="email" id="email-radio" />
                       <Label htmlFor="email-radio">Email</Label>
@@ -119,7 +191,7 @@ export default function ContactUs() {
 
                 <div className="space-y-2">
                   <Label htmlFor="inquiry-type">Type of inquiry</Label>
-                  <Select>
+                  <Select value={formData.inquiryType} onValueChange={handleSelectChange}>
                     <SelectTrigger>
                       <SelectValue placeholder="Select inquiry type" />
                     </SelectTrigger>
@@ -137,14 +209,23 @@ export default function ContactUs() {
                   <Textarea
                     className="min-h-[150px]"
                     id="message"
+                    name="message"
                     placeholder="Tell us about your travel plans or questions..."
+                    value={formData.message}
+                    onChange={handleChange}
                   />
                 </div>
 
-                <Button type="submit" className="w-full">
+                <Button type="submit" className="w-full" disabled={loading}>
                   <MessageSquare className="w-4 h-4 mr-2" />
-                  Send Message
+                  {loading ? 'Sending...' : 'Send Message'}
                 </Button>
+                {status === 'success' && (
+                  <p className="text-green-600 text-center">Message sent! Check your email for confirmation.</p>
+                )}
+                {status === 'error' && (
+                  <p className="text-red-600 text-center">There was an error sending your message. Please try again.</p>
+                )}
               </form>
             </Card>
           </div>

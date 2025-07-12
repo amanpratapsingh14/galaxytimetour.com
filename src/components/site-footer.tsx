@@ -41,24 +41,39 @@ export function SiteFooter() {
           <div className="space-y-4 text-center md:text-left">
             <h3 className="text-lg font-semibold">Contact Info</h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>123 Travel Street</li>
-              <li>San Francisco, CA 94105</li>
-              <li>Phone: (555) 123-4567</li>
+              <li>145, 24, Muang Pattaya, Bang Lamung District, Chon Buri 20150, Thailand</li>
+              <li>Phone: +66-951123458, +66-618800005</li>
+              <li>Phone: +91 9871171680</li>
               <li>Email: info@galaxytimetour.com</li>
             </ul>
           </div>
           <div className="space-y-4 text-center md:text-left">
             <h3 className="text-lg font-semibold">Follow Us</h3>
             <div className="flex justify-center md:justify-start space-x-4">
-              <Link href="#" className="text-muted-foreground hover:text-primary">
+              <Link 
+                href="http://www.facebook.com/galaxytimetour" 
+                className="text-muted-foreground hover:text-primary"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <Facebook className="h-5 w-5" />
                 <span className="sr-only">Facebook</span>
               </Link>
-              <Link href="#" className="text-muted-foreground hover:text-primary">
+              <Link 
+                href="http://www.twitter.com/galaxytimetour" 
+                className="text-muted-foreground hover:text-primary"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <Twitter className="h-5 w-5" />
                 <span className="sr-only">Twitter</span>
               </Link>
-              <Link href="#" className="text-muted-foreground hover:text-primary">
+              <Link 
+                href="http://www.instagram.com/galaxytimetour" 
+                className="text-muted-foreground hover:text-primary"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <Instagram className="h-5 w-5" />
                 <span className="sr-only">Instagram</span>
               </Link>
