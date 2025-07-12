@@ -1,7 +1,24 @@
 # Node.js dependencies
 /node_modules/
 
+<<<<<<< HEAD
 # Build output
+=======
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage
+
+# next.js
+>>>>>>> update_version
 /.next/
 /out/
 
@@ -16,12 +33,18 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+.pnpm-debug.log*
 
+<<<<<<< HEAD
 # IDE and OS-specific files
 .vscode/
 .idea/
 .DS_Store
 Thumbs.db
+=======
+# env files (can opt-in for committing if needed)
+.env*
+>>>>>>> update_version
 
 # Environment files
 .env
