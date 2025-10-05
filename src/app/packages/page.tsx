@@ -1,213 +1,38 @@
-import type { ReactNode } from "react"
+"use client"
+
 import Image from "next/image"
 import Link from "next/link"
-import { BeanIcon as Beach, Coffee, Hotel, MapPin, Plane, Utensils, Star, Clock, Users, Zap, Shield } from "lucide-react"
+import { MapPin, Star, Zap, Shield } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { CurrencySelector } from "@/components/currency-selector"
+import { useCurrency } from "@/contexts/currency-context"
+import { packages, comboPackages } from "@/data/packages"
 
-interface PackageFeature {
-  icon: ReactNode
-  label: string
-}
-
-interface TravelPackage {
-  id: string
-  destination: string
-  title: string
-  description: string
-  image: string
-  priceINR: number
-  priceUSD: number
-  duration: string
-  features: PackageFeature[]
-  type: 'single' | 'combo'
-  originalPrice?: number
-  discount?: number
-}
 
 export default function PackagesPage() {
-  const singlePackages: TravelPackage[] = [
-    {
-      id: "phuket-tropical",
-      destination: "Phuket",
-      title: "Tropical Escape",
-      description: "Beach resort, breakfast & dinner, island tour + airport transfers",
-      image: "/phuket/phuket_1.png",
-      priceINR: 70000,
-      priceUSD: 845,
-      duration: "5 days / 4 nights",
-      type: 'single',
-      originalPrice: 84000,
-      discount: 17,
-      features: [
-        { icon: <Hotel className="h-4 w-4" />, label: "Beach Resort" },
-        { icon: <Utensils className="h-4 w-4" />, label: "Breakfast & Dinner" },
-        { icon: <Beach className="h-4 w-4" />, label: "Island Tour" },
-        { icon: <Plane className="h-4 w-4" />, label: "Airport Transfers" },
-      ],
-    },
-    {
-      id: "bangkok-city",
-      destination: "Bangkok",
-      title: "City & Culture",
-      description: "Luxury hotel, breakfast, temples & city tours, transfers",
-      image: "/bangkok/bgk_1.png",
-      priceINR: 55000,
-      priceUSD: 665,
-      duration: "4 days / 3 nights",
-      type: 'single',
-      originalPrice: 61000,
-      discount: 10,
-      features: [
-        { icon: <Hotel className="h-4 w-4" />, label: "Luxury Hotel" },
-        { icon: <Coffee className="h-4 w-4" />, label: "Daily Breakfast" },
-        { icon: <MapPin className="h-4 w-4" />, label: "Temples & City Tours" },
-        { icon: <Plane className="h-4 w-4" />, label: "Airport Transfers" },
-      ],
-    },
-    {
-      id: "krabi-adventure",
-      destination: "Krabi",
-      title: "Adventure & Relaxation",
-      description: "Beachfront stay, all-inclusive meals, rock-climbing + kayaking",
-      image: "/krabi/krabi_1.png",
-      priceINR: 65000,
-      priceUSD: 785,
-      duration: "5 days / 4 nights",
-      type: 'single',
-      originalPrice: 75000,
-      discount: 13,
-      features: [
-        { icon: <Hotel className="h-4 w-4" />, label: "Beachfront Resort" },
-        { icon: <Utensils className="h-4 w-4" />, label: "All-Inclusive Meals" },
-        { icon: <Beach className="h-4 w-4" />, label: "Rock Climbing & Kayaking" },
-        { icon: <Plane className="h-4 w-4" />, label: "Airport Transfers" },
-      ],
-    },
-    {
-      id: "pattaya-coastal",
-      destination: "Pattaya",
-      title: "Coastal City",
-      description: "Seaside hotel, breakfast, water sports, transfers",
-      image: "/pattaya/pattaya_1.png",
-      priceINR: 50000,
-      priceUSD: 605,
-      duration: "4 days / 3 nights",
-      type: 'single',
-      originalPrice: 55000,
-      discount: 9,
-      features: [
-        { icon: <Hotel className="h-4 w-4" />, label: "Seaside Hotel" },
-        { icon: <Coffee className="h-4 w-4" />, label: "Daily Breakfast" },
-        { icon: <Beach className="h-4 w-4" />, label: "Water Sports" },
-        { icon: <Plane className="h-4 w-4" />, label: "Airport Transfers" },
-      ],
-    },
-    {
-      id: "hua-hin-royal",
-      destination: "Hua Hin",
-      title: "Royal Coast Retreat",
-      description: "Boutique resort, breakfast & dinner, beach activities + transfers",
-      image: "/hua_hin/hua_hin_1.png",
-      priceINR: 58000,
-      priceUSD: 700,
-      duration: "4 days / 3 nights",
-      type: 'single',
-      originalPrice: 65000,
-      discount: 11,
-      features: [
-        { icon: <Hotel className="h-4 w-4" />, label: "Boutique Resort" },
-        { icon: <Utensils className="h-4 w-4" />, label: "Breakfast & Dinner" },
-        { icon: <Beach className="h-4 w-4" />, label: "Beach Activities" },
-        { icon: <Plane className="h-4 w-4" />, label: "Airport Transfers" },
-      ],
-    },
-    {
-      id: "phuket-budget",
-      destination: "Phuket",
-      title: "Budget Option",
-      description: "Hotel, transfers, sightseeing—may exclude some meals",
-      image: "/phuket/phuket_2.png",
-      priceINR: 8500,
-      priceUSD: 103,
-      duration: "4 nights",
-      type: 'single',
-      features: [
-        { icon: <Hotel className="h-4 w-4" />, label: "Hotel Accommodation" },
-        { icon: <Plane className="h-4 w-4" />, label: "Airport Transfers" },
-        { icon: <MapPin className="h-4 w-4" />, label: "Sightseeing Tours" },
-        { icon: <Users className="h-4 w-4" />, label: "Group Tours" },
-      ],
-    }
-  ]
+  const { formatPrice } = useCurrency()
 
-  const comboPackages: TravelPackage[] = [
-    {
-      id: "krabi-phuket-combo",
-      destination: "Krabi + Phuket",
-      title: "Adventure & Beach Combo",
-      description: "2 nights each, hotels, cabs, meals, sightseeing",
-      image: "/krabi/krabi_2.png",
-      priceINR: 14200,
-      priceUSD: 170,
-      duration: "4N/5D",
-      type: 'combo',
-      originalPrice: 16799,
-      discount: 15,
-      features: [
-        { icon: <Hotel className="h-4 w-4" />, label: "2 Nights Each Location" },
-        { icon: <Plane className="h-4 w-4" />, label: "Inter-city Transfers" },
-        { icon: <Utensils className="h-4 w-4" />, label: "Meals Included" },
-        { icon: <MapPin className="h-4 w-4" />, label: "Sightseeing Tours" },
-      ],
-    },
-    {
-      id: "phuket-bangkok-combo",
-      destination: "Phuket + Bangkok",
-      title: "Beach & City Combo",
-      description: "3 nights Phuket, 2 nights Bangkok, hotels, transfers, sightseeing",
-      image: "/phuket/phuket_3.png",
-      priceINR: 20100,
-      priceUSD: 240,
-      duration: "4N/5D",
-      type: 'combo',
-      originalPrice: 23799,
-      discount: 15,
-      features: [
-        { icon: <Hotel className="h-4 w-4" />, label: "3N Phuket + 2N Bangkok" },
-        { icon: <Plane className="h-4 w-4" />, label: "Airport & Inter-city Transfers" },
-        { icon: <MapPin className="h-4 w-4" />, label: "City & Island Tours" },
-        { icon: <Utensils className="h-4 w-4" />, label: "Meals Included" },
-      ],
-    },
-    {
-      id: "4-city-mini",
-      destination: "Phuket + Krabi + Pattaya + Bangkok",
-      title: "4-City Mini Tour",
-      description: "Includes airport transfers, hotels, basic meals",
-      image: "/thailand/thai_1.png",
-      priceINR: 28999,
-      priceUSD: 350,
-      duration: "6N/7D",
-      type: 'combo',
-      features: [
-        { icon: <Hotel className="h-4 w-4" />, label: "Multiple City Stays" },
-        { icon: <Plane className="h-4 w-4" />, label: "All Airport Transfers" },
-        { icon: <Utensils className="h-4 w-4" />, label: "Basic Meals" },
-        { icon: <MapPin className="h-4 w-4" />, label: "Multi-city Sightseeing" },
-      ],
+  // Calculate dynamic pricing
+  const calculatePricing = () => {
+    const singlePrices = packages.map(pkg => pkg.priceUSD)
+    const comboPrices = comboPackages.map(pkg => pkg.priceUSD)
+    
+    const avgSinglePrice = singlePrices.reduce((sum, price) => sum + price, 0) / singlePrices.length
+    const avgComboPrice = comboPrices.reduce((sum, price) => sum + price, 0) / comboPrices.length
+    const totalBudget = singlePrices.reduce((sum, price) => sum + price, 0) + comboPrices.reduce((sum, price) => sum + price, 0)
+    
+    return {
+      avgSingle: Math.round(avgSinglePrice),
+      avgCombo: Math.round(avgComboPrice),
+      total: Math.round(totalBudget)
     }
-  ]
-
-  const formatPrice = (price: number, currency: 'INR' | 'USD') => {
-    if (currency === 'INR') {
-      return `₹${price.toLocaleString('en-IN')}`
-    }
-    return `$${price.toLocaleString('en-US')}`
   }
+
+  const pricing = calculatePricing()
 
   return (
     <div className="min-h-screen bg-background">
@@ -229,15 +54,18 @@ export default function PackagesPage() {
             <p className="max-w-[600px] text-lg sm:text-xl text-muted-foreground md:text-2xl">
               Discover the perfect Thai getaway with our carefully curated travel packages
             </p>
-            <div className="flex items-center gap-4 mt-4">
-              <Badge variant="secondary" className="flex items-center gap-1">
-                <Star className="h-3 w-3" />
-                Best Deals
-              </Badge>
-              <Badge variant="secondary" className="flex items-center gap-1">
-                <Shield className="h-3 w-3" />
-                Secure Booking
-              </Badge>
+            <div className="flex flex-col sm:flex-row items-center gap-4 mt-4">
+              <div className="flex items-center gap-4">
+                <Badge variant="secondary" className="flex items-center gap-1">
+                  <Star className="h-3 w-3" />
+                  Best Deals
+                </Badge>
+                <Badge variant="secondary" className="flex items-center gap-1">
+                  <Shield className="h-3 w-3" />
+                  Secure Booking
+                </Badge>
+              </div>
+              <CurrencySelector />
             </div>
           </div>
         </div>
@@ -265,16 +93,22 @@ export default function PackagesPage() {
               <p className="text-muted-foreground">Perfect for focused exploration of one amazing location</p>
             </div>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {singlePackages.map((pkg) => (
+              {packages.map((pkg) => (
                 <Card key={pkg.id} className="flex flex-col overflow-hidden hover:shadow-lg transition-shadow">
                   <CardHeader className="p-0">
                     <div className="aspect-[4/3] relative">
                       <Image
                         src={pkg.image}
-                        alt={pkg.destination}
+                        alt={pkg.title}
                         fill
                         className="object-cover transition-transform duration-300 hover:scale-105"
+                        loading="lazy"
+                        placeholder="blur"
+                        blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
                       />
+                      <Badge className="absolute top-2 left-2 bg-primary text-primary-foreground">
+                        {pkg.type.toUpperCase()}
+                      </Badge>
                       {pkg.discount && (
                         <Badge className="absolute top-2 right-2 bg-red-500 text-white">
                           {pkg.discount}% OFF
@@ -286,19 +120,26 @@ export default function PackagesPage() {
                     <div className="space-y-4">
                       <div className="space-y-2">
                         <div className="flex items-center justify-between">
-                          <h2 className="text-2xl font-bold">{pkg.destination}</h2>
-                          <Badge variant="secondary">{pkg.duration}</Badge>
+                          <h2 className="text-xl font-bold">{pkg.title}</h2>
+                          <Badge variant="secondary">{pkg.duration.days}D/{pkg.duration.nights}N</Badge>
                         </div>
-                        <h3 className="text-lg font-medium text-muted-foreground">{pkg.title}</h3>
+                        <p className="text-sm text-muted-foreground">{pkg.description}</p>
                       </div>
-                      <p className="text-muted-foreground text-sm">{pkg.description}</p>
-                      <div className="grid grid-cols-2 gap-4">
-                        {pkg.features.map((feature, index) => (
-                          <div key={index} className="flex items-center gap-2 text-sm text-muted-foreground">
-                            {feature.icon}
-                            <span className="text-xs">{feature.label}</span>
-                          </div>
-                        ))}
+                      <div className="space-y-2">
+                        <h4 className="text-sm font-semibold">Inclusions:</h4>
+                        <div className="grid grid-cols-1 gap-1">
+                          {pkg.inclusions.slice(0, 4).map((inclusion, index) => (
+                            <div key={index} className="flex items-center gap-2 text-xs text-muted-foreground">
+                              <div className="w-1 h-1 bg-primary rounded-full"></div>
+                              <span>{inclusion}</span>
+                            </div>
+                          ))}
+                          {pkg.inclusions.length > 4 && (
+                            <div className="text-xs text-muted-foreground">
+                              +{pkg.inclusions.length - 4} more inclusions
+                            </div>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </CardContent>
@@ -307,17 +148,16 @@ export default function PackagesPage() {
                       <div className="space-y-1">
                         <p className="text-sm text-muted-foreground">Starting from</p>
                         <div className="flex items-center gap-2">
-                          <p className="text-2xl font-bold">{formatPrice(pkg.priceINR, 'INR')}</p>
-                          <p className="text-sm text-muted-foreground">({formatPrice(pkg.priceUSD, 'USD')})</p>
+                          <p className="text-2xl font-bold">{formatPrice(pkg.priceUSD)}</p>
                         </div>
-                        {pkg.originalPrice && (
+                        {pkg.originalPriceUSD && (
                           <p className="text-sm text-muted-foreground line-through">
-                            {formatPrice(pkg.originalPrice, 'INR')}
+                            {formatPrice(pkg.originalPriceUSD)}
                           </p>
                         )}
                       </div>
                       <Button asChild>
-                        <Link href={`/book/${pkg.destination.toLowerCase().replace(' ', '-')}`}>
+                        <Link href={`/book/${pkg.destinationId}`}>
                           Book Now
                         </Link>
                       </Button>
@@ -340,9 +180,12 @@ export default function PackagesPage() {
                     <div className="aspect-[4/3] relative">
                       <Image
                         src={pkg.image}
-                        alt={pkg.destination}
+                        alt={pkg.title}
                         fill
                         className="object-cover transition-transform duration-300 hover:scale-105"
+                        loading="lazy"
+                        placeholder="blur"
+                        blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
                       />
                       <Badge className="absolute top-2 left-2 bg-primary text-primary-foreground">
                         COMBO
@@ -358,19 +201,26 @@ export default function PackagesPage() {
                     <div className="space-y-4">
                       <div className="space-y-2">
                         <div className="flex items-center justify-between">
-                          <h2 className="text-xl font-bold">{pkg.destination}</h2>
-                          <Badge variant="secondary">{pkg.duration}</Badge>
+                          <h2 className="text-xl font-bold">{pkg.title}</h2>
+                          <Badge variant="secondary">{pkg.duration.days}D/{pkg.duration.nights}N</Badge>
                         </div>
-                        <h3 className="text-lg font-medium text-muted-foreground">{pkg.title}</h3>
+                        <p className="text-sm text-muted-foreground">{pkg.description}</p>
                       </div>
-                      <p className="text-muted-foreground text-sm">{pkg.description}</p>
-                      <div className="grid grid-cols-2 gap-4">
-                        {pkg.features.map((feature, index) => (
-                          <div key={index} className="flex items-center gap-2 text-sm text-muted-foreground">
-                            {feature.icon}
-                            <span className="text-xs">{feature.label}</span>
-                          </div>
-                        ))}
+                      <div className="space-y-2">
+                        <h4 className="text-sm font-semibold">Inclusions:</h4>
+                        <div className="grid grid-cols-1 gap-1">
+                          {pkg.inclusions.slice(0, 4).map((inclusion, index) => (
+                            <div key={index} className="flex items-center gap-2 text-xs text-muted-foreground">
+                              <div className="w-1 h-1 bg-primary rounded-full"></div>
+                              <span>{inclusion}</span>
+                            </div>
+                          ))}
+                          {pkg.inclusions.length > 4 && (
+                            <div className="text-xs text-muted-foreground">
+                              +{pkg.inclusions.length - 4} more inclusions
+                            </div>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </CardContent>
@@ -379,12 +229,11 @@ export default function PackagesPage() {
                       <div className="space-y-1">
                         <p className="text-sm text-muted-foreground">Starting from</p>
                         <div className="flex items-center gap-2">
-                          <p className="text-2xl font-bold">{formatPrice(pkg.priceINR, 'INR')}</p>
-                          <p className="text-sm text-muted-foreground">({formatPrice(pkg.priceUSD, 'USD')})</p>
+                          <p className="text-2xl font-bold">{formatPrice(pkg.priceUSD)}</p>
                         </div>
-                        {pkg.originalPrice && (
+                        {pkg.originalPriceUSD && (
                           <p className="text-sm text-muted-foreground line-through">
-                            {formatPrice(pkg.originalPrice, 'INR')}
+                            {formatPrice(pkg.originalPriceUSD)}
                           </p>
                         )}
                       </div>
@@ -403,45 +252,45 @@ export default function PackagesPage() {
       {/* Pricing Summary */}
       <section className="border-t bg-muted/40">
         <div className="container mx-auto py-12 md:py-16">
-          <div className="rounded-lg bg-primary-foreground p-8 md:p-12 lg:p-16">
+          <div className="rounded-lg bg-card p-8 md:p-12 lg:p-16 border">
             <div className="text-center space-y-6 mb-8">
-              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Package Pricing Summary</h2>
+              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl text-card-foreground">Package Pricing Summary</h2>
               <p className="mx-auto max-w-[600px] text-lg text-muted-foreground">
                 Get the best value with our carefully curated packages
               </p>
             </div>
             
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              <div className="text-center p-6 rounded-lg border">
-                <h3 className="text-xl font-bold mb-2">Single Packages</h3>
-                <p className="text-3xl font-bold text-primary mb-2">₹58,000</p>
+              <div className="text-center p-6 rounded-lg border bg-card">
+                <h3 className="text-xl font-bold mb-2 text-card-foreground">Single Packages</h3>
+                <p className="text-3xl font-bold text-primary mb-2">{formatPrice(pricing.avgSingle)}</p>
                 <p className="text-sm text-muted-foreground mb-4">Average per package</p>
-                <div className="space-y-2 text-sm">
+                <div className="space-y-2 text-sm text-muted-foreground">
                   <p>• 4-5 days duration</p>
                   <p>• Hotel + meals included</p>
                   <p>• Airport transfers</p>
                 </div>
               </div>
               
-              <div className="text-center p-6 rounded-lg border">
-                <h3 className="text-xl font-bold mb-2">Combo Packages</h3>
-                <p className="text-3xl font-bold text-primary mb-2">₹21,000</p>
+              <div className="text-center p-6 rounded-lg border bg-card">
+                <h3 className="text-xl font-bold mb-2 text-card-foreground">Combo Packages</h3>
+                <p className="text-3xl font-bold text-primary mb-2">{formatPrice(pricing.avgCombo)}</p>
                 <p className="text-sm text-muted-foreground mb-4">Average per combo</p>
-                <div className="space-y-2 text-sm">
+                <div className="space-y-2 text-sm text-muted-foreground">
                   <p>• 2 destinations</p>
                   <p>• Inter-city transfers</p>
                   <p>• Multi-city tours</p>
                 </div>
               </div>
               
-              <div className="text-center p-6 rounded-lg border bg-primary text-primary-foreground">
-                <h3 className="text-xl font-bold mb-2">Total Budget</h3>
-                <p className="text-3xl font-bold mb-2">₹247,000</p>
-                <p className="text-sm mb-4">≈ $2,975 USD</p>
-                <div className="space-y-2 text-sm">
-                  <p>• 6 total packages</p>
-                  <p>• 3 combos + 3 singles</p>
-                  <p>• Complete Thailand tour</p>
+              <div className="text-center p-6 rounded-lg border bg-card">
+                <h3 className="text-xl font-bold mb-2 text-card-foreground">Total Budget</h3>
+                <p className="text-3xl font-bold text-primary mb-2">{formatPrice(pricing.total)}</p>
+                <p className="text-sm text-muted-foreground mb-4">Complete Thailand tour</p>
+                <div className="space-y-2 text-sm text-muted-foreground">
+                  <p>• {packages.length + comboPackages.length} total packages</p>
+                  <p>• {comboPackages.length} combos + {packages.length} singles</p>
+                  <p>• All destinations covered</p>
                 </div>
               </div>
             </div>
@@ -450,18 +299,18 @@ export default function PackagesPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="border-t">
+      <section className="border-t bg-muted/40">
         <div className="container mx-auto py-12 md:py-16">
-          <div className="rounded-lg bg-gradient-to-r from-primary to-primary/80 p-8 md:p-12 lg:p-16 text-center space-y-6 text-primary-foreground">
-            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Ready to Start Your Thai Adventure?</h2>
-            <p className="mx-auto max-w-[600px] text-lg opacity-90">
+          <div className="rounded-lg bg-card border p-8 md:p-12 lg:p-16 text-center space-y-6">
+            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl text-card-foreground">Ready to Start Your Thai Adventure?</h2>
+            <p className="mx-auto max-w-[600px] text-lg text-muted-foreground">
               Book your dream vacation today and get exclusive deals on our Thailand packages.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" variant="secondary" asChild>
+              <Button size="lg" asChild>
                 <Link href="/contact">Contact Our Travel Experts</Link>
               </Button>
-              <Button size="lg" variant="outline" className="border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary" asChild>
+              <Button size="lg" variant="outline" asChild>
                 <Link href="/destinations">Explore Destinations</Link>
               </Button>
             </div>

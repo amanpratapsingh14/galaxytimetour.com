@@ -29,93 +29,93 @@ export default function Gallery() {
   const images: GalleryImage[] = [
     {
       id: 1,
-      url: "/placeholder.svg?height=600&width=800",
-      location: "Bali, Indonesia",
+      url: "/ImgGallery/package_1.png",
+      location: "Pattaya, Thailand",
       category: "beaches",
       likes: 1234,
-      photographer: "Sarah Wilson",
-      description: "Sunset at Uluwatu Temple - one of the most magical moments of our trip!",
-      profilePic: "/placeholder.svg?height=100&width=100",
+      photographer: "Galaxy Time Tour",
+      description: "Beautiful coastal views and pristine beaches in Pattaya!",
+      profilePic: "/ImgGallery/aboutUs.png",
     },
     {
       id: 2,
-      url: "/placeholder.svg?height=800&width=600",
-      location: "Swiss Alps",
-      category: "mountains",
+      url: "/ImgGallery/package_2.png",
+      location: "Bangkok, Thailand",
+      category: "cities",
       likes: 892,
-      photographer: "Mike Chen",
-      description: "The majestic Alps never cease to amaze. Worth every step of the hike!",
-      profilePic: "/placeholder.svg?height=100&width=100",
+      photographer: "Galaxy Time Tour",
+      description: "The vibrant capital city with stunning temples and culture!",
+      profilePic: "/ImgGallery/aboutUs.png",
     },
     {
       id: 3,
-      url: "/placeholder.svg?height=600&width=800",
-      location: "Tokyo, Japan",
-      category: "cities",
+      url: "/ImgGallery/package_3.png",
+      location: "Phuket, Thailand",
+      category: "beaches",
       likes: 1567,
-      photographer: "Emma Davis",
-      description: "The perfect blend of tradition and modernity in the heart of Tokyo.",
-      profilePic: "/placeholder.svg?height=100&width=100",
+      photographer: "Galaxy Time Tour",
+      description: "Tropical paradise with crystal clear waters and amazing islands.",
+      profilePic: "/ImgGallery/aboutUs.png",
     },
     {
       id: 4,
-      url: "/placeholder.svg?height=800&width=600",
-      location: "Serengeti, Tanzania",
-      category: "wildlife",
+      url: "/ImgGallery/package_4.png",
+      location: "Krabi, Thailand",
+      category: "mountains",
       likes: 2103,
-      photographer: "James Thompson",
-      description: "Witnessed this incredible moment during the great migration!",
-      profilePic: "/placeholder.svg?height=100&width=100",
+      photographer: "Galaxy Time Tour",
+      description: "Stunning limestone cliffs and hidden lagoons await!",
+      profilePic: "/ImgGallery/aboutUs.png",
     },
     {
       id: 5,
-      url: "/placeholder.svg?height=600&width=800",
-      location: "Kyoto, Japan",
+      url: "/ImgGallery/package_5.png",
+      location: "Koh Samui, Thailand",
       category: "culture",
       likes: 945,
-      photographer: "Lisa Anderson",
-      description: "A peaceful morning at the Golden Pavilion.",
-      profilePic: "/placeholder.svg?height=100&width=100",
+      photographer: "Galaxy Time Tour",
+      description: "A peaceful tropical island with rich cultural heritage.",
+      profilePic: "/ImgGallery/aboutUs.png",
     },
     {
       id: 6,
-      url: "/placeholder.svg?height=800&width=600",
-      location: "Rome, Italy",
+      url: "/ImgGallery/package_6.png",
+      location: "Chiang Mai, Thailand",
       category: "food",
       likes: 756,
-      photographer: "Marco Rossi",
-      description: "The best pasta I've ever had! A hidden gem in Rome.",
-      profilePic: "/placeholder.svg?height=100&width=100",
+      photographer: "Galaxy Time Tour",
+      description: "Authentic Thai cuisine and traditional northern culture!",
+      profilePic: "/ImgGallery/aboutUs.png",
     },
     {
       id: 7,
-      url: "/placeholder.svg?height=600&width=800",
-      location: "Santorini, Greece",
-      category: "cities",
+      url: "/ImgGallery/package_7.png",
+      location: "Hua Hin, Thailand",
+      category: "beaches",
       likes: 1890,
-      photographer: "Elena Papadopoulos",
-      description: "Blue domes and white buildings - postcard perfect Santorini!",
-      profilePic: "/placeholder.svg?height=100&width=100",
+      photographer: "Galaxy Time Tour",
+      description: "Royal beach destination with perfect blend of relaxation!",
+      profilePic: "/ImgGallery/aboutUs.png",
     },
     {
       id: 8,
-      url: "/placeholder.svg?height=800&width=600",
-      location: "Machu Picchu, Peru",
+      url: "/ImgGallery/package_8.png",
+      location: "Chiang Rai, Thailand",
       category: "culture",
       likes: 2341,
-      photographer: "Carlos Martinez",
-      description: "Sunrise at Machu Picchu - an unforgettable experience!",
-      profilePic: "/placeholder.svg?height=100&width=100",
+      photographer: "Galaxy Time Tour",
+      description: "Golden Triangle and unique temples in northern Thailand!",
+      profilePic: "/ImgGallery/aboutUs.png",
     },
     {
       id: 9,
-      url: "/placeholder.svg?height=600&width=800",
-      location: "Great Barrier Reef, Australia",
+      url: "/ImgGallery/package_9.png",
+      location: "Thai Islands",
       category: "wildlife",
       likes: 1678,
-      photographer: "Tom Wilson",
-      description: "Amazing underwater world at the Great Barrier Reef!",
-      profilePic: "/placeholder.svg?height=100&width=100",
+      photographer: "Galaxy Time Tour",
+      description: "Amazing marine life and underwater adventures!",
+      profilePic: "/ImgGallery/aboutUs.png",
     },
   ]
 
@@ -126,11 +126,12 @@ export default function Gallery() {
       {/* Hero Section */}
       <section className="relative h-[300px] flex items-center justify-center overflow-hidden">
         <Image
-          src="/placeholder.svg?height=1000&width=2000"
+          src="/ImgGallery/AboutUs.jpg"
           alt="Travel Gallery"
           width={2000}
           height={1000}
           className="absolute inset-0 object-cover w-full h-full"
+          priority
         />
         <div className="absolute inset-0 bg-black/50" />
         <div className="relative z-10 text-center text-white space-y-4">
@@ -173,11 +174,14 @@ export default function Gallery() {
               >
                 <div className="aspect-[4/3] relative overflow-hidden rounded-lg">
                   <Image
-                    src={image.url || "/placeholder.svg"}
+                    src={image.url}
                     alt={image.location}
                     width={800}
                     height={600}
                     className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-110"
+                    loading="lazy"
+                    placeholder="blur"
+                    blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
                   />
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   <div className="absolute inset-0 p-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -188,11 +192,12 @@ export default function Gallery() {
                       </div>
                       <div className="flex items-center gap-2">
                         <Image
-                          src={image.profilePic || "/placeholder.svg"}
+                          src={image.profilePic}
                           alt={image.photographer}
                           width={32}
                           height={32}
                           className="rounded-full"
+                          loading="lazy"
                         />
                         <span>{image.photographer}</span>
                       </div>
@@ -220,21 +225,23 @@ export default function Gallery() {
               </div>
               <div className="flex items-center gap-2 mt-2">
                 <Image
-                  src={selectedImage.profilePic || "/placeholder.svg"}
+                  src={selectedImage.profilePic}
                   alt={selectedImage.photographer}
                   width={40}
                   height={40}
                   className="rounded-full"
+                  loading="lazy"
                 />
                 <span className="font-medium">{selectedImage.photographer}</span>
               </div>
               <div className="relative aspect-[4/3] mt-4">
                 <Image
-                  src={selectedImage.url || "/placeholder.svg"}
+                  src={selectedImage.url}
                   alt={selectedImage.location}
                   width={1200}
                   height={900}
                   className="rounded-lg object-cover w-full h-full"
+                  loading="lazy"
                 />
               </div>
               <div className="mt-4">

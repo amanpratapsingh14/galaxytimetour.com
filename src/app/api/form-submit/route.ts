@@ -45,9 +45,23 @@ function validateDate(date: string): boolean {
   return selectedDate >= today && selectedDate <= new Date(today.getTime() + 365 * 24 * 60 * 60 * 1000);
 }
 
-function validateGuests(guests: string): boolean {
-  const num = parseInt(guests);
+function validateNumberOfDays(days: string): boolean {
+  const num = parseInt(days);
+  return !isNaN(num) && num >= 1 && num <= 30;
+}
+
+function validateNumberOfAdults(adults: string): boolean {
+  const num = parseInt(adults);
   return !isNaN(num) && num >= 1 && num <= 20;
+}
+
+function validateNumberOfChildren(children: string): boolean {
+  const num = parseInt(children);
+  return !isNaN(num) && num >= 0 && num <= 10;
+}
+
+function validateNationality(nationality: string): boolean {
+  return nationality.trim().length > 0 && nationality.trim().length <= 50;
 }
 
 // Rate limiting function
@@ -75,21 +89,7 @@ function checkRateLimit(identifier: string): boolean {
   return true;
 }
 
-// Data encryption for sensitive information (simplified for reliability)
-function encryptSensitiveData(data: string): string {
-  try {
-    const algorithm = 'aes-256-cbc';
-    const key = crypto.scryptSync(SECURITY_CONFIG.ENCRYPTION_KEY, 'salt', 32);
-    const iv = crypto.randomBytes(16);
-    const cipher = crypto.createCipheriv(algorithm, key, iv);
-    let encrypted = cipher.update(data, 'utf8', 'hex');
-    encrypted += cipher.final('hex');
-    return iv.toString('hex') + ':' + encrypted;
-  } catch (error) {
-    // Fallback to simple encoding if encryption fails
-    return Buffer.from(data).toString('base64');
-  }
-}
+
 
 // Secure transporter with additional security options
 const transporter = nodemailer.createTransport({
@@ -110,13 +110,19 @@ const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'ajauser1998@gmail.com';
 
 type BookingFormData = {
   formType?: 'booking';
+  destination: string;
   fullName: string;
   email: string;
   phone: string;
+  nationality: string;
   date: string;
-  time: string;
-  guests: string;
-  specialRequests?: string;
+  numberOfDays: string;
+  numberOfAdults: string;
+  numberOfChildren: string;
+  includeBreakfast: boolean;
+  includeLunch: boolean;
+  includeDinner: boolean;
+  additionalNotes?: string;
   website?: string; // Honeypot field
 };
 
@@ -135,14 +141,13 @@ type FormData = BookingFormData | ContactFormData;
 
 function getFormType(data: FormData): 'booking' | 'contact' {
   if ('formType' in data && data.formType) return data.formType;
-  if ('date' in data && 'time' in data && 'guests' in data) return 'booking';
+  if ('date' in data && 'numberOfDays' in data && 'numberOfAdults' in data) return 'booking';
   return 'contact';
 }
 
 // Enhanced email templates with security headers and content
 function bookingTemplate(data: BookingFormData) {
   const bookingId = crypto.randomBytes(8).toString('hex').toUpperCase();
-  const encryptedEmail = encryptSensitiveData(data.email);
   
   return `
     <!DOCTYPE html>
@@ -267,6 +272,10 @@ function bookingTemplate(data: BookingFormData) {
               <td>${bookingId}</td>
             </tr>
             <tr>
+              <td><strong>🌍 Destination</strong></td>
+              <td>${sanitizeInput(data.destination)}</td>
+            </tr>
+            <tr>
               <td><strong>👤 Guest Name</strong></td>
               <td>${sanitizeInput(data.fullName)}</td>
             </tr>
@@ -288,25 +297,41 @@ function bookingTemplate(data: BookingFormData) {
               })}</td>
             </tr>
             <tr>
-              <td><strong>🕐 Preferred Time</strong></td>
-              <td>${sanitizeInput(data.time)}</td>
+              <td><strong>🌍 Nationality</strong></td>
+              <td>${sanitizeInput(data.nationality)}</td>
             </tr>
             <tr>
-              <td><strong>👥 Number of Guests</strong></td>
-              <td>${sanitizeInput(data.guests)} ${parseInt(data.guests) === 1 ? 'Guest' : 'Guests'}</td>
+              <td><strong>📅 Number of Days</strong></td>
+              <td>${sanitizeInput(data.numberOfDays)} ${parseInt(data.numberOfDays) === 1 ? 'Day' : 'Days'}</td>
             </tr>
-            <tr class="highlight">
-              <td><strong>💫 Special Requests</strong></td>
-              <td>${sanitizeInput(data.specialRequests || 'None specified')}</td>
+            <tr>
+              <td><strong>👥 Number of Adults</strong></td>
+              <td>${sanitizeInput(data.numberOfAdults)} ${parseInt(data.numberOfAdults) === 1 ? 'Adult' : 'Adults'}</td>
+            </tr>
+            <tr>
+              <td><strong>👶 Number of Children</strong></td>
+              <td>${sanitizeInput(data.numberOfChildren)} ${parseInt(data.numberOfChildren) === 1 ? 'Child' : 'Children'}</td>
+            </tr>
+            <tr>
+              <td><strong>🍽️ Meal Preferences</strong></td>
+              <td>
+                ${data.includeBreakfast ? '✓ Breakfast' : '✗ Breakfast'}<br/>
+                ${data.includeLunch ? '✓ Lunch' : '✗ Lunch'}<br/>
+                ${data.includeDinner ? '✓ Dinner' : '✗ Dinner'}
+              </td>
+            </tr>
+            <tr>
+              <td><strong>💫 Additional Notes</strong></td>
+              <td>${sanitizeInput(data.additionalNotes || 'None specified')}</td>
             </tr>
           </tbody>
         </table>
         
         <div class="footer">
-          <p><strong>🔒 Security Information</strong></p>
-          <p>This email is encrypted and sent via secure SSL/TLS connection. Your data is protected.</p>
+          <!-- <p><strong>🔒 Security Information</strong></p> -->
+          <!-- <p>This email is encrypted and sent via secure SSL/TLS connection. Your data is protected.</p> -->
           <p><strong>What's Next?</strong></p>
-          <p>Our team will contact you within 24 hours to confirm your itinerary and provide additional details about your upcoming adventure.</p>
+          <p>Our team will contact you within 2-4 days to confirm your itinerary and provide additional details about your upcoming adventure.</p>
           <p>For any questions, please contact us at <strong>support@galaxytimetour.com</strong></p>
           <p>Safe travels! ✈️</p>
         </div>
@@ -318,8 +343,6 @@ function bookingTemplate(data: BookingFormData) {
 
 function bookingAdminTemplate(data: BookingFormData) {
   const bookingId = crypto.randomBytes(8).toString('hex').toUpperCase();
-  const encryptedEmail = encryptSensitiveData(data.email);
-  const encryptedPhone = encryptSensitiveData(data.phone);
   
   return `
     <!DOCTYPE html>
@@ -417,15 +440,15 @@ function bookingAdminTemplate(data: BookingFormData) {
       </div>
       
       <div class="content">
-        <p>A new secure booking has been submitted through the website. Please review the details below:</p>
+        <p>A new booking has been submitted through the website. Please review the details below:</p>
         
         <div class="security-info">
           <p><strong>🔒 Security Information:</strong></p>
           <ul>
             <li>Booking ID: ${bookingId}</li>
-            <li>Encrypted data transmission</li>
-            <li>SSL/TLS secured connection</li>
-            <li>Rate-limited submission</li>
+            <!-- <li>Encrypted data transmission</li> -->
+            <!-- <li>SSL/TLS secured connection</li> -->
+            <!-- <li>Rate-limited submission</li> -->
           </ul>
         </div>
         
@@ -439,6 +462,10 @@ function bookingAdminTemplate(data: BookingFormData) {
             <tr>
               <td><strong>🔐 Booking ID</strong></td>
               <td>${bookingId}</td>
+            </tr>
+            <tr>
+              <td><strong>🌍 Destination</strong></td>
+              <td>${sanitizeInput(data.destination)}</td>
             </tr>
             <tr>
               <td><strong>👤 Customer Name</strong></td>
@@ -462,16 +489,32 @@ function bookingAdminTemplate(data: BookingFormData) {
               })}</td>
             </tr>
             <tr>
-              <td><strong>🕐 Preferred Time</strong></td>
-              <td>${sanitizeInput(data.time)}</td>
+              <td><strong>🌍 Nationality</strong></td>
+              <td>${sanitizeInput(data.nationality)}</td>
             </tr>
             <tr>
-              <td><strong>👥 Group Size</strong></td>
-              <td>${sanitizeInput(data.guests)} ${parseInt(data.guests) === 1 ? 'Guest' : 'Guests'}</td>
+              <td><strong>📅 Number of Days</strong></td>
+              <td>${sanitizeInput(data.numberOfDays)} ${parseInt(data.numberOfDays) === 1 ? 'Day' : 'Days'}</td>
+            </tr>
+            <tr>
+              <td><strong>👥 Number of Adults</strong></td>
+              <td>${sanitizeInput(data.numberOfAdults)} ${parseInt(data.numberOfAdults) === 1 ? 'Adult' : 'Adults'}</td>
+            </tr>
+            <tr>
+              <td><strong>👶 Number of Children</strong></td>
+              <td>${sanitizeInput(data.numberOfChildren)} ${parseInt(data.numberOfChildren) === 1 ? 'Child' : 'Children'}</td>
+            </tr>
+            <tr>
+              <td><strong>🍽️ Meal Preferences</strong></td>
+              <td>
+                ${data.includeBreakfast ? '✓ Breakfast' : '✗ Breakfast'}<br/>
+                ${data.includeLunch ? '✓ Lunch' : '✗ Lunch'}<br/>
+                ${data.includeDinner ? '✓ Dinner' : '✗ Dinner'}
+              </td>
             </tr>
             <tr class="urgent">
-              <td><strong>💫 Special Requirements</strong></td>
-              <td>${sanitizeInput(data.specialRequests || 'None specified')}</td>
+              <td><strong>💫 Additional Notes</strong></td>
+              <td>${sanitizeInput(data.additionalNotes || 'None specified')}</td>
             </tr>
           </tbody>
         </table>
@@ -479,7 +522,7 @@ function bookingAdminTemplate(data: BookingFormData) {
         <div style="margin-top: 20px; padding: 15px; background: #f0f9ff; border-radius: 8px; border-left: 4px solid #0ea5e9;">
           <p><strong>Action Required:</strong></p>
           <ul>
-            <li>Contact customer within 24 hours</li>
+            <li>Contact customer within 2-4 days</li>
             <li>Confirm availability for requested date</li>
             <li>Prepare detailed itinerary</li>
             <li>Send confirmation with payment details</li>
@@ -614,10 +657,10 @@ function contactTemplate(data: ContactFormData) {
         </table>
         
         <div class="footer">
-          <p><strong>🔒 Secure Communication</strong></p>
-          <p>Your message has been securely transmitted and stored.</p>
+          <!-- <p><strong>🔒 Secure Communication</strong></p> -->
+          <!-- <p>Your message has been securely transmitted and stored.</p> -->
           <p><strong>We'll be in touch soon!</strong></p>
-          <p>Our team typically responds within 2-4 hours during business hours.</p>
+          <p>Our team typically responds within 24 hours during business hours.</p>
         </div>
       </div>
     </body>
@@ -739,7 +782,7 @@ function contactAdminTemplate(data: ContactFormData) {
         <div style="margin-top: 20px; padding: 15px; background: #fffbeb; border-radius: 8px; border-left: 4px solid #f59e0b;">
           <p><strong>Action Required:</strong></p>
           <ul>
-            <li>Respond within 2-4 hours</li>
+            <li>Respond within 24 hours</li>
             <li>Use preferred contact method: ${sanitizeInput(data.preferredContactMethod)}</li>
             <li>Address inquiry type: ${sanitizeInput(data.inquiryType)}</li>
             <li>Verify customer identity if needed</li>
@@ -808,6 +851,13 @@ export async function POST(req: NextRequest) {
         );
       }
       
+      if (!validateNationality(bookingData.nationality)) {
+        return NextResponse.json(
+          { success: false, error: 'Invalid nationality' },
+          { status: 400 }
+        );
+      }
+      
       if (!validateDate(bookingData.date)) {
         return NextResponse.json(
           { success: false, error: 'Invalid date selected' },
@@ -815,9 +865,23 @@ export async function POST(req: NextRequest) {
         );
       }
       
-      if (!validateGuests(bookingData.guests)) {
+      if (!validateNumberOfDays(bookingData.numberOfDays)) {
         return NextResponse.json(
-          { success: false, error: 'Invalid number of guests' },
+          { success: false, error: 'Invalid number of days' },
+          { status: 400 }
+        );
+      }
+      
+      if (!validateNumberOfAdults(bookingData.numberOfAdults)) {
+        return NextResponse.json(
+          { success: false, error: 'Invalid number of adults' },
+          { status: 400 }
+        );
+      }
+      
+      if (!validateNumberOfChildren(bookingData.numberOfChildren)) {
+        return NextResponse.json(
+          { success: false, error: 'Invalid number of children' },
           { status: 400 }
         );
       }
@@ -826,7 +890,8 @@ export async function POST(req: NextRequest) {
       bookingData.fullName = sanitizeInput(bookingData.fullName);
       bookingData.email = sanitizeInput(bookingData.email);
       bookingData.phone = sanitizeInput(bookingData.phone);
-      bookingData.specialRequests = sanitizeInput(bookingData.specialRequests || '');
+      bookingData.nationality = sanitizeInput(bookingData.nationality);
+      bookingData.additionalNotes = sanitizeInput(bookingData.additionalNotes || '');
       
       // Send emails
       await transporter.sendMail({

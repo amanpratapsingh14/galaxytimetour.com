@@ -92,22 +92,38 @@ export default function ContactUs() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background ">
       {/* Hero Section */}
-      <section className="relative h-[50vh]">
-        <div className="absolute inset-0">
+      <section className="relative flex flex-col items-center justify-center overflow-hidden mt-2 mb-10">
+        <div className="relative w-full flex justify-center ">
           <Image
-            src="/ImgGallery/package_8.png"
-            alt="Thailand landscape"
-            fill
-            className="object-cover"
+            src="/ImgGallery/download.jpg"
+            alt="Travel landscape"
+            width={1536}
+            height={1024}
+            className="object-contain w-full h-auto max-h-[700px] shadow-lg"
             priority
-            sizes="10vw"
-            quality={100}
+            placeholder="blur"
+            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
           />
-          <div className="absolute inset-0 bg-black/50" />
         </div>
-        <div className="container mx-auto px-4 relative h-full flex flex-col items-center justify-center text-center">
+
+        {/* Text overlay */}
+        <div className="absolute inset-0 flex flex-col items-center justify-center ">
+          <div className="relative z-10 text-center text-white space-y-4 max-w-3xl px-10">
+            <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
+              Get in Touch
+            </h1>
+            <p className="text-lg md:text-xl text-gray-200">
+              We&apos;re here to help you plan your perfect trip.
+            </p>
+            <p className="text-lg text-white/90 max-w-2xl mx-auto">
+              Let&apos;s create your dream vacation together.
+            </p>
+          </div>
+        </div>
+      {/* </section> */}
+        {/* <div className="container mx-auto px-4 relative h-full flex flex-col items-center justify-center text-center">
           <h1 className="text-4xl font-bold tracking-tight mb-4 text-white">Get in Touch</h1>
           <p className="text-lg text-white/90 max-w-2xl mx-auto">
             We&apos;re here to help you plan your perfect trip.
@@ -115,12 +131,12 @@ export default function ContactUs() {
           <p className="text-lg text-white/90 max-w-2xl mx-auto">
             Let&apos;s create your dream vacation together.
           </p>
-        </div>
+        </div> */}
       </section>
 
       {/* Contact Information */}
-      <section className="py-12">
-        <div className="container mx-auto px-4">
+      <section className="py-12 ">
+        <div className="container mx-auto px-4 ">
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {contactInfo.map((info, index) => (
               <Card key={index} className="p-6">
