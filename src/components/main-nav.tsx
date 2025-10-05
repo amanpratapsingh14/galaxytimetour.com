@@ -7,6 +7,7 @@ import { Menu, Phone } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { CurrencySelector } from "@/components/currency-selector"
 
 export function MainNav() {
   const [isOpen, setIsOpen] = React.useState(false)
@@ -40,6 +41,7 @@ export function MainNav() {
           </div>
 
           <div className="hidden md:flex md:items-center md:space-x-4">
+            <CurrencySelector />
             <ThemeToggle />
             <Button variant="ghost" size="sm">
               <Phone className="mr-2 h-4 w-4" />
@@ -69,8 +71,11 @@ export function MainNav() {
                       {item.name}
                     </Link>
                   ))}
-                  <div className="flex items-center">
-                    <ThemeToggle />
+                  <div className="flex flex-col space-y-2">
+                    <CurrencySelector />
+                    <div className="flex items-center">
+                      <ThemeToggle />
+                    </div>
                   </div>
                   <Button className="w-full">Book Now</Button>
                 </div>

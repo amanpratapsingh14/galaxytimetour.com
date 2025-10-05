@@ -25,54 +25,44 @@ export default function AboutUs() {
     },
   ]
 
-  const team = [
-    {
-      name: "Sarah Johnson",
-      role: "CEO & Founder",
-      image: "/placeholder.svg?height=400&width=400",
-      bio: "Travel enthusiast with 15+ years of experience in luxury travel planning.",
-    },
-    {
-      name: "Michael Chen",
-      role: "Head of Operations",
-      image: "/placeholder.svg?height=400&width=400",
-      bio: "Expert in creating seamless travel experiences and managing global partnerships.",
-    },
-    {
-      name: "Emma Rodriguez",
-      role: "Travel Curator",
-      image: "/placeholder.svg?height=400&width=400",
-      bio: "Specialist in crafting unique, personalized travel itineraries.",
-    },
-  ]
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background flex flex-col items-center justify-center py-12">
       {/* Hero Section */}
-      <section className="relative h-[500px] flex items-center justify-center overflow-hidden">
-        <Image
-          src="/placeholder.svg?height=1000&width=2000"
-          alt="Travel landscape"
-          width={2000}
-          height={1000}
-          className="absolute inset-0 object-cover w-full h-full"
-        />
-        <div className="absolute inset-0 bg-black/50" />
-        <div className="relative z-10 text-center text-white space-y-4 max-w-3xl mx-auto px-4">
-          <h1 className="text-4xl md:text-5xl font-bold tracking-tight">Our Journey in Creating Perfect Travels</h1>
-          <p className="text-lg md:text-xl text-gray-200">
-            Crafting unforgettable experiences and turning travel dreams into reality since 2009
-          </p>
+      <section className="relative flex flex-col items-center justify-center overflow-hidden mt-2 mb-10">
+        <div className="relative w-full flex justify-center">
+          <Image
+            src="/ImgGallery/aboutUs_1.png"
+            alt="Travel landscape"
+            width={1536}
+            height={1024}
+            className="object-contain w-full h-auto max-h-[700px] rounded-lg shadow-lg"
+            priority
+            placeholder="blur"
+            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
+          />
         </div>
+
+        {/* Text overlay */}
+        {/* <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40">
+          <div className="relative z-10 text-center text-white space-y-4 max-w-3xl px-10">
+            <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
+              Our Journey in Creating Perfect Travels
+            </h1>
+            <p className="text-lg md:text-xl text-gray-200">
+              Crafting unforgettable experiences and turning travel dreams into reality since 2009
+            </p>
+          </div>
+        </div> */}
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 bg-primary/5">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+      <section className="py-16 bg-primary/5 rounded-lg">
+        <div className="container mx-auto px-4 ">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 ">
             {stats.map((stat, index) => (
               <div key={index} className="text-center space-y-2">
-                <div className="mx-auto w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                <div className="mx-auto w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
                   {stat.icon}
                 </div>
                 <div className="text-3xl font-bold">{stat.value}</div>
@@ -108,11 +98,13 @@ export default function AboutUs() {
             </div>
             <div className="relative h-[400px] rounded-lg overflow-hidden">
               <Image
-                src="/placeholder.svg?height=800&width=600"
-                alt="Our journey"
-                width={600}
-                height={800}
-                className="object-cover w-full h-full"
+                  src="/ImgGallery/package_32.png"
+                  alt="Travel landscape"
+                  fill
+                  className="object-cover rounded-lg shadow-lg"
+                  loading="lazy"
+                  placeholder="blur"
+                  blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
               />
             </div>
           </div>
@@ -120,20 +112,20 @@ export default function AboutUs() {
       </section>
 
       {/* Team Section */}
-      <section className="py-16 bg-primary/5">
+      {/* <section className="py-16 bg-primary/5 rounded-lg">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold tracking-tight text-center mb-12">Meet Our Team</h2>
           <div className="grid md:grid-cols-3 gap-8">
             {team.map((member, index) => (
-              <div key={index} className="bg-card rounded-lg overflow-hidden shadow-lg">
-                <Image
+              <div key={index} className="bg-card rounded-lg overflow-hidden shadow-lg"> */}
+                {/* <Image
                   src={member.image || "/placeholder.svg"}
                   alt={member.name}
                   width={400}
                   height={400}
                   className="w-full h-64 object-cover"
-                />
-                <div className="p-6">
+                /> */}
+                {/* <div className="p-6">
                   <h3 className="text-xl font-semibold mb-1">{member.name}</h3>
                   <p className="text-primary mb-3">{member.role}</p>
                   <p className="text-muted-foreground">{member.bio}</p>
@@ -142,7 +134,7 @@ export default function AboutUs() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
     </div>
   )
 }

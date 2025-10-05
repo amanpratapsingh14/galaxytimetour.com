@@ -7,6 +7,7 @@ import { useState, useEffect } from "react"
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
+import { destinations } from "@/data/destinations"
 
 export default function HomePage() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -70,48 +71,6 @@ export default function HomePage() {
     }
   ]
 
-  const destinations = [
-    {
-      name: "Pattaya",
-      image: "/pattaya/pattaya_1.png",
-      description: "Sandy beaches, thrilling water sports, and seafood feasts await in this coastal gem popular with day trippers.",
-    },
-    {
-      name: "Bangkok",
-      image: "/bangkok/bgk_1.png",
-      description: "Vibrant street life and stunning cultural landmarks like the Grand Palace and sacred Buddhist temples.",
-    },
-    {
-      name: "Phuket",
-      image: "/phuket/phuket_1.png",
-      description: "Home to iconic sights like the Big Buddha, Wat Chalong, and the famous Wang Talang shopping district.",
-    },
-    {
-      name: "Krabi",
-      image: "/krabi/krabi_1.png",
-      description: "Scenic rocky beaches perfect for hiking, scuba diving, and unforgettable snorkeling adventures.",
-    },
-    {
-      name: "Koh Samui",
-      image: "/koh_samui/koh_samui_1.png",
-      description: "A tropical paradise with lush nature, rich culture, and serene historical attractions to explore.",
-    },
-    {
-      name: "Chiang Mai",
-      image: "/chiang_mai/chiang_mai_1.png",
-      description: "A charming and peaceful northern city known for its temples, markets, and mountain scenery.",
-    },
-    {
-      name: "Hua Hin",
-      image: "/hua_hin/hua_hin_1.png",
-      description: "Beautiful beaches and a cultural mix that make every moment feel timeless and relaxing.",
-    },
-    // {
-    //   name: "Phuket + Krabi",
-    //   image: "/images/phuket-krabi.jpg",
-    //   description: "Explore the best of both worlds with scenic beauty, island vibes, and exciting excursions.",
-    // }
-  ];
   
   return (
     <div className="flex min-h-screen flex-col">
@@ -239,7 +198,10 @@ export default function HomePage() {
                         fill
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         className="object-cover transition-transform duration-500 group-hover:scale-110"
-                        priority={destinations.indexOf(destination) < 6}
+                        priority={destinations.indexOf(destination) < 3}
+                        loading={destinations.indexOf(destination) < 3 ? "eager" : "lazy"}
+                        placeholder="blur"
+                        blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     </div>
@@ -251,7 +213,7 @@ export default function HomePage() {
                         </div>
                         <p className="text-muted-foreground">{destination.description}</p>
                         <Button variant="link" className="p-0 group-hover:text-primary transition-colors" asChild>
-                          <Link href={`/destinations/${destination.name.toLowerCase().replace(/,?\s+/g, "-")}`}>
+                          <Link href={`/book/${destination.id}`}>
                             Learn more <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                           </Link>
                         </Button>
