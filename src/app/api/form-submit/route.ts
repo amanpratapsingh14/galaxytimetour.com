@@ -1,6 +1,7 @@
+import crypto from 'crypto';
+
 import { NextRequest, NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
-import crypto from 'crypto';
 
 // Security configuration
 const SECURITY_CONFIG = {
@@ -29,7 +30,7 @@ function validateEmail(email: string): boolean {
   if (!emailRegex.test(email)) return false;
   
   const domain = email.split('@')[1]?.toLowerCase();
-  return SECURITY_CONFIG.ALLOWED_EMAIL_DOMAINS.includes(domain);
+  return domain ? SECURITY_CONFIG.ALLOWED_EMAIL_DOMAINS.includes(domain) : false;
 }
 
 function validatePhone(phone: string): boolean {

@@ -3,9 +3,10 @@
 import * as React from "react"
 import Link from "next/link"
 import { Menu, Phone } from "lucide-react"
+import * as VisuallyHidden from "@radix-ui/react-visually-hidden"
 
 import { Button } from "@/components/ui/button"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetDescription } from "@/components/ui/sheet"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { CurrencySelector } from "@/components/currency-selector"
 
@@ -60,7 +61,13 @@ export function MainNav() {
                 </Button>
               </SheetTrigger>
               <SheetContent side="right">
-                <div className="flex flex-col space-y-4 pt-4">
+                <VisuallyHidden.Root>
+                  <SheetTitle>Navigation Menu</SheetTitle>
+                  <SheetDescription>
+                    Mobile navigation menu with links to destinations, packages, about us, and contact pages
+                  </SheetDescription>
+                </VisuallyHidden.Root>
+                <div className="flex flex-col space-y-4 pt-4 pl-4">
                   {navigation.map((item) => (
                     <Link
                       key={item.name}

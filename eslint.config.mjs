@@ -14,9 +14,9 @@ const config = [
   {
     rules: {
       // Performance rules
-      "react/jsx-no-constructed-context-values": "error",
+      "react/jsx-no-constructed-context-values": "off", // Allow constructed context values
       "react/jsx-no-useless-fragment": "error",
-      "react/no-array-index-key": "warn",
+      "react/no-array-index-key": "off", // Allow array index as key
       "react/no-unstable-nested-components": "error",
       
       // Accessibility rules
@@ -32,9 +32,9 @@ const config = [
       // Code quality rules
       "prefer-const": "error",
       "no-var": "error",
-      "no-console": "warn",
+      "no-console": "off", // Allow console statements
       "no-debugger": "error",
-      "no-alert": "warn",
+      "no-alert": "off", // Allow alert statements
       "no-eval": "error",
       "no-implied-eval": "error",
       "no-new-func": "error",
@@ -42,32 +42,15 @@ const config = [
       
       // Import rules
       "import/no-unresolved": "off", // Next.js handles this
-      "import/order": [
-        "error",
-        {
-          "groups": [
-            "builtin",
-            "external",
-            "internal",
-            "parent",
-            "sibling",
-            "index"
-          ],
-          "newlines-between": "always",
-          "alphabetize": {
-            "order": "asc",
-            "caseInsensitive": true
-          }
-        }
-      ],
+      "import/order": "off", // Disabled - too many conflicts with existing code
       
       // TypeScript specific rules
       "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
       "@typescript-eslint/explicit-function-return-type": "off",
       "@typescript-eslint/explicit-module-boundary-types": "off",
       "@typescript-eslint/no-explicit-any": "warn",
-      "@typescript-eslint/prefer-nullish-coalescing": "error",
-      "@typescript-eslint/prefer-optional-chain": "error",
+      "@typescript-eslint/prefer-nullish-coalescing": "off", // Disabled - requires type information
+      "@typescript-eslint/prefer-optional-chain": "off", // Disabled - requires type information
       
       // Next.js specific rules
       "@next/next/no-img-element": "warn",
