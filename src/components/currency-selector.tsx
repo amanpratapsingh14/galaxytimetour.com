@@ -1,6 +1,5 @@
 "use client"
 
-import { useCurrency, Currency } from '@/contexts/currency-context'
 import {
   Select,
   SelectContent,
@@ -8,6 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { useCurrency, Currency } from '@/contexts/currency-context'
 
 const currencies = [
   { code: 'USD' as Currency, name: 'US Dollar', symbol: '$' },

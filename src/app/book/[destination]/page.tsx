@@ -1,7 +1,7 @@
 "use client"
 
-import { useState, useEffect, useCallback, useRef, forwardRef, useImperativeHandle, Suspense, lazy, useMemo } from "react"
 import { useParams } from "next/navigation"
+import { useState, useEffect, useCallback, useRef, forwardRef, useImperativeHandle, Suspense, lazy, useMemo } from "react"
 import { Calendar, Clock, MapPin, Users, Shield, RefreshCw, Loader2 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
