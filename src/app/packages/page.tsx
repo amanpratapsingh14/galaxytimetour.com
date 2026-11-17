@@ -41,6 +41,7 @@ export default function PackagesPage() {
       </PageHero>
 
       <section className="container py-12 md:py-16">
+        <h2 className="sr-only">All packages</h2>
         <PackagesExplorer />
       </section>
 

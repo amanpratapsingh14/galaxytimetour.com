@@ -43,7 +43,7 @@ export function TripPlanner({ className }: { className?: string }) {
         <MapPin className="size-5 shrink-0 text-brand-cyan" />
         <div className="min-w-0 flex-1">
           <span className={labelClass}>Where</span>
-          <Select value={destination} onValueChange={setDestination}>
+          <Select name="destination" value={destination} onValueChange={setDestination}>
             <SelectTrigger
               aria-label="Destination"
               className="h-7 w-full border-0 bg-transparent p-0 text-base font-medium text-white shadow-none backdrop-blur-none data-[placeholder]:text-white/80 [&_svg]:!text-white/60"
@@ -73,6 +73,7 @@ export function TripPlanner({ className }: { className?: string }) {
             value={date}
             onChange={(e) => setDate(e.target.value)}
             className="h-7 w-full bg-transparent text-base font-medium text-white outline-none [color-scheme:dark]"
+            name="date"
             aria-label="Travel date"
           />
         </span>
@@ -91,6 +92,7 @@ export function TripPlanner({ className }: { className?: string }) {
             value={adults}
             onChange={(e) => setAdults(e.target.value)}
             className="h-7 w-full bg-transparent text-base font-medium text-white outline-none"
+            name="adults"
             aria-label="Number of adults"
           />
         </span>

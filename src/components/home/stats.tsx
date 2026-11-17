@@ -1,7 +1,6 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { animate, useInView } from "motion/react"
 
 import { Stagger, StaggerItem } from "@/components/motion/reveal"
 
@@ -12,16 +11,32 @@ const stats = [
   { value: 24, suffix: "/7", label: "Multilingual support" },
 ]
 
+/** Counts up once when scrolled into view. Renders the final value on the server, so it's never wrong without JS. */
 function Counter({ value, suffix }: { value: number; suffix: string }) {
   const ref = useRef<HTMLSpanElement>(null)
-  const inView = useInView(ref, { once: true, margin: "-40px" })
-  const [display, setDisplay] = useState(0)
+  const [display, setDisplay] = useState(value)
 
   useEffect(() => {
-    if (!inView) return
-    const controls = animate(0, value, { duration: 1.8, ease: [0.22, 1, 0.36, 1], onUpdate: (v) => setDisplay(Math.round(v)) })
-    return () => controls.stop()
-  }, [inView, value])
+    const el = ref.current
+    if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
+    let frame = 0
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry?.isIntersecting) return
+      observer.disconnect()
+      const start = performance.now()
+      const tick = (now: number) => {
+        const t = Math.min(1, (now - start) / 1600)
+        setDisplay(Math.round(value * (1 - Math.pow(1 - t, 3))))
+        if (t < 1) frame = requestAnimationFrame(tick)
+      }
+      frame = requestAnimationFrame(tick)
+    }, { rootMargin: "-40px" })
+    observer.observe(el)
+    return () => {
+      observer.disconnect()
+      cancelAnimationFrame(frame)
+    }
+  }, [value])
 
   return (
     <span ref={ref} className="tabular-nums">

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Menu, Phone } from "lucide-react"
-import { motion } from "motion/react"
+import { m } from "motion/react"
 
 import { CurrencySelector } from "@/components/currency-selector"
 import { Logo } from "@/components/site/logo"
@@ -55,7 +55,7 @@ export function SiteHeader() {
                 {item.name}
               </Link>
               {isActive(item.href) && (
-                <motion.span
+                <m.span
                   layoutId="nav-pill"
                   className={cn("absolute inset-0 rounded-full", overHero ? "bg-white/15" : "bg-accent")}
                   transition={{ type: "spring", stiffness: 380, damping: 32 }}
@@ -89,7 +89,7 @@ export function SiteHeader() {
               </div>
               <ul className="flex flex-col gap-1 p-4">
                 {mainNav.map((item, i) => (
-                  <motion.li
+                  <m.li
                     key={item.href}
                     initial={{ opacity: 0, x: 24 }}
                     animate={{ opacity: 1, x: 0 }}
@@ -105,7 +105,7 @@ export function SiteHeader() {
                     >
                       {item.name}
                     </Link>
-                  </motion.li>
+                  </m.li>
                 ))}
               </ul>
               <div className="mt-auto space-y-3 border-t p-5">

@@ -10,7 +10,7 @@ export function CurrencySelector({ className, showLabel = false }: { className?:
   return (
     <div className={cn("flex items-center gap-2", className)}>
       {showLabel && <span className="text-sm text-muted-foreground">Prices in</span>}
-      <Select value={currency} onValueChange={(value) => setCurrency(value as Currency)}>
+      <Select name="currency" value={currency} onValueChange={(value) => setCurrency(value as Currency)}>
         <SelectTrigger size="sm" className="w-[104px] rounded-full" aria-label="Currency">
           <SelectValue>
             {currencies.find((c) => c.code === currency)?.symbol} {currency}

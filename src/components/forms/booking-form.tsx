@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { useSearchParams } from "next/navigation"
 import { ArrowLeft, ArrowRight, Check, Coffee, Loader2, Minus, Moon, Plus, Sandwich, ShieldCheck, Sparkles } from "lucide-react"
-import { AnimatePresence, motion } from "motion/react"
+import { AnimatePresence, m } from "motion/react"
 
 import { Field, fieldA11y, Honeypot } from "@/components/forms/field"
 import { submitForm } from "@/components/forms/submit"
@@ -120,15 +120,15 @@ function BookingFormInner({ destinationId, params }: { destinationId: string; pa
 
   if (status === "done") {
     return (
-      <motion.div initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} className="space-y-5 py-6 text-center">
-        <motion.div
+      <m.div initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} className="space-y-5 py-6 text-center">
+        <m.div
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ type: "spring", stiffness: 260, damping: 16, delay: 0.1 }}
           className="bg-brand-gradient mx-auto grid size-20 place-items-center rounded-full shadow-xl shadow-brand-magenta/30"
         >
           <Check className="size-10 text-white" strokeWidth={3} />
-        </motion.div>
+        </m.div>
         <h3 className="text-2xl font-bold">Request received!</h3>
         <p className="text-muted-foreground">
           Thanks, {form.fullName.split(" ")[0]}. A travel expert will send your {destination.name} itinerary and quote shortly
@@ -142,7 +142,7 @@ function BookingFormInner({ destinationId, params }: { destinationId: string; pa
             </a>
           </Button>
         </div>
-      </motion.div>
+      </m.div>
     )
   }
 
@@ -171,13 +171,13 @@ function BookingFormInner({ destinationId, params }: { destinationId: string; pa
           </button>
         ))}
         <div className="ml-auto h-1.5 w-20 overflow-hidden rounded-full bg-muted">
-          <motion.div className="bg-brand-gradient h-full" animate={{ width: step === 0 ? "50%" : "100%" }} />
+          <m.div className="bg-brand-gradient h-full" animate={{ width: step === 0 ? "50%" : "100%" }} />
         </div>
       </div>
 
       <AnimatePresence mode="wait" initial={false}>
         {step === 0 ? (
-          <motion.div key="trip" initial={{ opacity: 0, x: -24 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -24 }} className="space-y-6">
+          <m.div key="trip" initial={{ opacity: 0, x: -24 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -24 }} className="space-y-6">
             <fieldset className="space-y-3">
               <legend className="mb-3 text-sm font-medium">Choose your package</legend>
               <div className="grid gap-3 sm:grid-cols-2">
@@ -194,9 +194,9 @@ function BookingFormInner({ destinationId, params }: { destinationId: string; pa
                     <span className="text-xs text-muted-foreground capitalize">{o.sub}</span>
                     <span className="mt-1 font-display text-lg font-bold">{o.price ? formatPrice(o.price) : <Sparkles className="size-5 text-brand-gold" />}</span>
                     {form.packageId === o.id && (
-                      <motion.span layoutId="pkg-check" className="bg-brand-gradient absolute top-3 right-3 grid size-6 place-items-center rounded-full text-white">
+                      <m.span layoutId="pkg-check" className="bg-brand-gradient absolute top-3 right-3 grid size-6 place-items-center rounded-full text-white">
                         <Check className="size-3.5" />
-                      </motion.span>
+                      </m.span>
                     )}
                   </label>
                 ))}
@@ -247,9 +247,9 @@ function BookingFormInner({ destinationId, params }: { destinationId: string; pa
             <Button type="button" size="lg" className="w-full" onClick={next}>
               Continue <ArrowRight />
             </Button>
-          </motion.div>
+          </m.div>
         ) : (
-          <motion.div key="details" initial={{ opacity: 0, x: 24 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 24 }} className="space-y-5">
+          <m.div key="details" initial={{ opacity: 0, x: 24 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 24 }} className="space-y-5">
             <Field id="fullName" label="Full name" required error={errors.fullName}>
               <Input autoComplete="name" placeholder="As on your passport" value={form.fullName} onChange={(e) => update("fullName", e.target.value)} {...fieldA11y("fullName", errors.fullName)} />
             </Field>
@@ -285,7 +285,7 @@ function BookingFormInner({ destinationId, params }: { destinationId: string; pa
             <p className="flex items-center justify-center gap-1.5 text-xs text-muted-foreground">
               <ShieldCheck className="size-3.5 text-success" /> No payment now · free quote · we never share your details
             </p>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </form>

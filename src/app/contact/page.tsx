@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import { Clock, Mail, MapPin, Phone } from "lucide-react"
 
 import { ContactForm } from "@/components/forms/contact-form"
+import { MapEmbed } from "@/components/map-embed"
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/reveal"
 import { PageHero } from "@/components/page-hero"
 import { WhatsAppIcon } from "@/components/social-icons"
@@ -85,14 +86,8 @@ export default function ContactPage() {
           </Suspense>
         </Reveal>
 
-        <Reveal delay={0.1} className="flex flex-col overflow-hidden rounded-[2rem] border bg-card">
-          <iframe
-            title="Galaxy Time Tour office location"
-            src={`https://www.google.com/maps?q=${mapQuery}&output=embed`}
-            className="min-h-80 w-full flex-1 border-0 grayscale-[30%] dark:invert-[90%] dark:hue-rotate-180"
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-          />
+        <Reveal className="flex flex-col overflow-hidden rounded-[2rem] border bg-card">
+          <MapEmbed query={fullAddress} title="Galaxy Time Tour office location" />
           <div className="flex items-start gap-3 p-6">
             <MapPin className="mt-0.5 size-5 shrink-0 text-primary" />
             <div>

@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { useSearchParams } from "next/navigation"
 import { Check, Loader2, Mail, Phone, Send } from "lucide-react"
-import { motion } from "motion/react"
+import { m } from "motion/react"
 
 import { Field, fieldA11y, Honeypot } from "@/components/forms/field"
 import { submitForm } from "@/components/forms/submit"
@@ -70,14 +70,14 @@ export function ContactForm() {
 
   if (status === "done") {
     return (
-      <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="space-y-4 py-10 text-center">
-        <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: "spring", stiffness: 260, damping: 16 }} className="bg-brand-gradient mx-auto grid size-20 place-items-center rounded-full shadow-xl shadow-brand-magenta/30">
+      <m.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="space-y-4 py-10 text-center">
+        <m.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: "spring", stiffness: 260, damping: 16 }} className="bg-brand-gradient mx-auto grid size-20 place-items-center rounded-full shadow-xl shadow-brand-magenta/30">
           <Check className="size-10 text-white" strokeWidth={3} />
-        </motion.div>
+        </m.div>
         <h3 className="text-2xl font-bold">Message sent!</h3>
         <p className="text-muted-foreground">Thanks {form.firstName} — we&apos;ll reply by {form.preferredContactMethod} shortly.</p>
         <p className="inline-block rounded-full border bg-muted px-4 py-2 font-mono text-sm">Ref: {reference}</p>
-      </motion.div>
+      </m.div>
     )
   }
 
@@ -102,7 +102,7 @@ export function ContactForm() {
       </div>
 
       <Field id="inquiryType" label="How can we help?" required error={errors.inquiryType}>
-        <Select value={form.inquiryType} onValueChange={(v) => update("inquiryType", v as ContactData["inquiryType"])}>
+        <Select name="inquiryType" value={form.inquiryType} onValueChange={(v) => update("inquiryType", v as ContactData["inquiryType"])}>
           <SelectTrigger id="inquiryType" className="w-full" aria-invalid={errors.inquiryType ? true : undefined}>
             <SelectValue placeholder="Choose a topic" />
           </SelectTrigger>

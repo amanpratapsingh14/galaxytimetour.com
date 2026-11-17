@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react"
 import Link from "next/link"
 import { ArrowRight, Check, Clock, SlidersHorizontal } from "lucide-react"
-import { AnimatePresence, motion } from "motion/react"
+import { AnimatePresence, m } from "motion/react"
 
 import { PackageCard } from "@/components/package-card"
 import { Button } from "@/components/ui/button"
@@ -53,14 +53,14 @@ export function PackagesExplorer() {
               onClick={() => setKind(k.value)}
               className={cn("relative shrink-0 rounded-full px-4 py-2 text-sm font-medium transition-colors", kind === k.value ? "text-white" : "hover:bg-muted")}
             >
-              {kind === k.value && <motion.span layoutId="kind-pill" className="bg-brand-gradient absolute inset-0 -z-10 rounded-full" />}
+              {kind === k.value && <m.span layoutId="kind-pill" className="bg-brand-gradient absolute inset-0 -z-10 rounded-full" />}
               {k.label}
             </button>
           ))}
         </div>
         <div className="flex flex-1 items-center gap-2 md:justify-end">
           <SlidersHorizontal className="hidden size-4 text-muted-foreground md:block" />
-          <Select value={destination} onValueChange={setDestination}>
+          <Select name="destination" value={destination} onValueChange={setDestination}>
             <SelectTrigger size="sm" className="flex-1 md:w-44 md:flex-none" aria-label="Destination">
               <SelectValue />
             </SelectTrigger>
@@ -69,7 +69,7 @@ export function PackagesExplorer() {
               {destinations.map((d) => <SelectItem key={d.id} value={d.id}>{d.name}</SelectItem>)}
             </SelectContent>
           </Select>
-          <Select value={sort} onValueChange={(v) => setSort(v as Sort)}>
+          <Select name="sort" value={sort} onValueChange={(v) => setSort(v as Sort)}>
             <SelectTrigger size="sm" className="flex-1 md:w-44 md:flex-none" aria-label="Sort by">
               <SelectValue />
             </SelectTrigger>
@@ -87,15 +87,15 @@ export function PackagesExplorer() {
         Showing <strong className="text-foreground">{list.length}</strong> package{list.length === 1 ? "" : "s"}
       </p>
 
-      <motion.div layout className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <m.div layout className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         <AnimatePresence mode="popLayout">
           {list.map((pkg) => (
-            <motion.div key={pkg.id} layout initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95 }} transition={{ duration: 0.35 }}>
+            <m.div key={pkg.id} layout initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95 }} transition={{ duration: 0.35 }}>
               <PackageCard pkg={pkg} combo={isCombo(pkg)} onDetails={() => setOpen(pkg)} />
-            </motion.div>
+            </m.div>
           ))}
         </AnimatePresence>
-      </motion.div>
+      </m.div>
 
       {list.length === 0 && (
         <div className="rounded-3xl border border-dashed p-12 text-center">

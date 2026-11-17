@@ -52,7 +52,7 @@ export function PackageCard({
           )}
         </div>
         {pkg.discount && (
-          <span className="absolute top-3 right-3 rounded-full bg-destructive px-2.5 py-1 text-xs font-bold text-white shadow">
+          <span className="absolute top-3 right-3 rounded-full bg-[oklch(0.5_0.2_25)] px-2.5 py-1 text-xs font-bold text-white shadow">
             -{pkg.discount}%
           </span>
         )}

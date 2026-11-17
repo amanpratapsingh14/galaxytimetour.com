@@ -4,6 +4,7 @@ import { ArrowRight, BadgeCheck, Car, Headphones, Hotel, MessageSquareText, Moun
 import { CtaBand } from "@/components/cta-band"
 import { DestinationExplorer } from "@/components/destination-explorer"
 import { Hero } from "@/components/home/hero"
+import { Marquee } from "@/components/marquee"
 import { PackageCarousel } from "@/components/home/package-carousel"
 import { Stats } from "@/components/home/stats"
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/reveal"
@@ -66,15 +67,13 @@ export default function HomePage() {
 
       {/* Destination ticker */}
       <div className="border-y bg-muted/40 py-4">
-        <div className="relative overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_10%,#000_90%,transparent)]">
-          <div className="flex w-max animate-marquee gap-10 font-display text-lg font-semibold text-muted-foreground">
-            {[...destinations, ...destinations].map((d, i) => (
-              <span key={i} aria-hidden={i >= destinations.length} className="flex items-center gap-10">
-                {d.name} <span className="text-brand-gold">✦</span>
-              </span>
-            ))}
-          </div>
-        </div>
+        <Marquee trackClassName="font-display text-lg font-semibold text-muted-foreground">
+          {destinations.map((d) => (
+            <span key={d.id} className="mr-10 flex items-center gap-10">
+              {d.name} <span className="text-brand-gold">✦</span>
+            </span>
+          ))}
+        </Marquee>
       </div>
 
       {/* Intro + stats */}
@@ -204,8 +203,8 @@ export default function HomePage() {
             </Button>
           </Reveal>
         </div>
-        <PhotoMarquee photos={marqueePhotos.slice(0, 12).map((p) => p.src)} />
-        <PhotoMarquee photos={marqueePhotos.slice(12, 24).map((p) => p.src)} reverse />
+        <PhotoMarquee photos={marqueePhotos.slice(0, 10).map((p) => p.src)} />
+        <PhotoMarquee photos={marqueePhotos.slice(10, 20).map((p) => p.src)} reverse />
       </section>
 
       <div className="container">
