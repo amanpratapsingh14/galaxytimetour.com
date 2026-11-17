@@ -1,215 +1,147 @@
-import type React from "react"
 import type { Metadata, Viewport } from "next"
+import { Inter, Sora } from "next/font/google"
 import "./globals.css"
 
-import { MainNav } from "@/components/main-nav"
-import { SiteFooter } from "@/components/site-footer"
 import { ThemeProvider } from "@/components/providers"
+import { SiteFooter } from "@/components/site/footer"
+import { SiteHeader } from "@/components/site/header"
+import { WhatsAppButton } from "@/components/site/whatsapp-button"
 import { CurrencyProvider } from "@/contexts/currency-context"
+import { destinations } from "@/data/destinations"
+import { siteConfig } from "@/lib/site"
+
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" })
+const sora = Sora({ subsets: ["latin"], variable: "--font-sora", display: "swap", weight: ["500", "600", "700", "800"] })
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteConfig.url),
   title: {
-    default: "Galaxy Time Tour - Premium Travel Experiences in Thailand",
-    template: "%s | Galaxy Time Tour"
+    default: `${siteConfig.name} — Tailor-made Thailand Tours & Holidays`,
+    template: `%s | ${siteConfig.name}`,
   },
-  description: "Discover unforgettable travel experiences in Thailand with Galaxy Time Tour. From pristine beaches to cultural adventures, we offer premium tours, comfortable accommodations, and authentic Thai experiences.",
+  description: siteConfig.description,
+  applicationName: siteConfig.name,
   keywords: [
-    "Thailand travel",
-    "Thai tours",
+    "Thailand tour packages",
+    "Thailand holiday",
+    "Pattaya travel agency",
     "Bangkok tours",
-    "Phuket travel",
-    "Pattaya tours",
-    "Thai culture",
-    "beach vacations",
-    "adventure travel",
-    "luxury tours",
-    "budget travel",
-    "Thai cuisine",
-    "island hopping",
-    "cultural tours",
-    "eco-tourism",
-    "family vacations"
+    "Phuket packages",
+    "Krabi island tours",
+    "Chiang Mai tours",
+    "Thailand honeymoon",
+    "Thailand tour from India",
+    "TAT licensed travel agent",
   ],
-  authors: [{ name: "Galaxy Time Tour Team" }],
-  creator: "Galaxy Time Tour",
-  publisher: "Galaxy Time Tour",
-  formatDetection: {
-    email: false,
-    address: false,
-    telephone: false,
-  },
-  metadataBase: new URL('https://galaxytimetour.com'),
-  alternates: {
-    canonical: '/',
-    languages: {
-      'en-US': '/en-US',
-      'th': '/th',
-    },
+  authors: [{ name: siteConfig.name }],
+  creator: siteConfig.name,
+  publisher: siteConfig.legalName,
+  category: "travel",
+  formatDetection: { email: false, address: false, telephone: false },
+  alternates: { canonical: "/" },
+  icons: {
+    icon: [
+      { url: "/favicon_io/favicon.ico", sizes: "any" },
+      { url: "/favicon_io/favicon-32x32.png", type: "image/png", sizes: "32x32" },
+      { url: "/favicon_io/favicon-16x16.png", type: "image/png", sizes: "16x16" },
+    ],
+    apple: "/favicon_io/apple-touch-icon.png",
   },
   openGraph: {
-    type: 'website',
-    locale: 'en_US',
-    url: 'https://galaxytimetour.com',
-    siteName: 'Galaxy Time Tour',
-    title: 'Galaxy Time Tour - Premium Travel Experiences in Thailand',
-    description: 'Discover unforgettable travel experiences in Thailand with Galaxy Time Tour. From pristine beaches to cultural adventures, we offer premium tours, comfortable accommodations, and authentic Thai experiences.',
-    images: [
-      {
-        url: '/og-image.jpg',
-        width: 1200,
-        height: 630,
-        alt: 'Galaxy Time Tour - Thailand Travel Experiences',
-      },
-    ],
+    type: "website",
+    locale: "en_US",
+    url: siteConfig.url,
+    siteName: siteConfig.name,
+    title: `${siteConfig.name} — Tailor-made Thailand Tours`,
+    description: siteConfig.description,
   },
   twitter: {
-    card: 'summary_large_image',
-    title: 'Galaxy Time Tour - Premium Travel Experiences in Thailand',
-    description: 'Discover unforgettable travel experiences in Thailand with Galaxy Time Tour.',
-    images: ['/og-image.jpg'],
-    creator: '@galaxytimetour',
+    card: "summary_large_image",
+    title: `${siteConfig.name} — Tailor-made Thailand Tours`,
+    description: siteConfig.description,
   },
   robots: {
     index: true,
     follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
-  verification: {
-    google: 'your-google-verification-code',
-    yandex: 'your-yandex-verification-code',
-    yahoo: 'your-yahoo-verification-code',
-  },
-  category: 'travel',
-  classification: 'travel agency',
-  other: {
-    'geo.region': 'TH',
-    'geo.placename': 'Thailand',
-    'geo.position': '13.7563;100.5018',
-    'ICBM': '13.7563, 100.5018',
-    'DC.title': 'Galaxy Time Tour - Premium Travel Experiences in Thailand',
-    'DC.creator': 'Galaxy Time Tour Team',
-    'DC.subject': 'Thailand Travel, Tours, Cultural Experiences',
-    'DC.description': 'Premium travel experiences in Thailand',
-    'DC.publisher': 'Galaxy Time Tour',
-    'DC.contributor': 'Galaxy Time Tour Team',
-    'DC.date': '2025',
-    'DC.type': 'website',
-    'DC.format': 'text/html',
-    'DC.identifier': 'https://galaxytimetour.com',
-    'DC.language': 'en',
-    'DC.coverage': 'Thailand',
-    'DC.rights': 'Copyright 2025 Galaxy Time Tour',
+    googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 },
   },
 }
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#0ea5e9' },
-    { media: '(prefers-color-scheme: dark)', color: '#0369a1' },
+    { media: "(prefers-color-scheme: light)", color: "#f8f7fd" },
+    { media: "(prefers-color-scheme: dark)", color: "#0d0f2b" },
   ],
-  width: 'device-width',
+  width: "device-width",
   initialScale: 1,
-  maximumScale: 5,
-  userScalable: true,
 }
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "TravelAgency",
+  name: siteConfig.legalName,
+  alternateName: siteConfig.name,
+  description: siteConfig.description,
+  url: siteConfig.url,
+  logo: `${siteConfig.url}/logo_1.png`,
+  image: `${siteConfig.url}/hero_image.webp`,
+  telephone: siteConfig.phones.map((p) => p.href.replace("tel:", "")),
+  email: siteConfig.emails[0],
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: siteConfig.address.street,
+    addressLocality: siteConfig.address.locality,
+    addressRegion: siteConfig.address.region,
+    postalCode: siteConfig.address.postalCode,
+    addressCountry: siteConfig.address.countryCode,
+  },
+  geo: { "@type": "GeoCoordinates", latitude: siteConfig.address.lat, longitude: siteConfig.address.lng },
+  openingHoursSpecification: [
+    { "@type": "OpeningHoursSpecification", dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], opens: "09:00", closes: "18:00" },
+    { "@type": "OpeningHoursSpecification", dayOfWeek: "Saturday", opens: "10:00", closes: "16:00" },
+  ],
+  knowsLanguage: siteConfig.languages,
+  areaServed: { "@type": "Country", name: "Thailand" },
+  priceRange: "$$",
+  sameAs: Object.values(siteConfig.social),
+  hasOfferCatalog: {
+    "@type": "OfferCatalog",
+    name: "Thailand destinations",
+    itemListElement: destinations.map((d) => ({
+      "@type": "Offer",
+      itemOffered: { "@type": "TouristTrip", name: `${d.name} tour`, description: d.description },
+      price: d.basePriceUSD,
+      priceCurrency: "USD",
+    })),
+  },
+}
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head>
-        {/* Preconnect to external domains for performance */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="preconnect" href="https://www.google-analytics.com" />
-        
-        {/* DNS prefetch for performance */}
-        <link rel="dns-prefetch" href="//www.google-analytics.com" />
-        <link rel="dns-prefetch" href="//fonts.googleapis.com" />
-        
-        {/* Favicon and app icons */}
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        <link rel="manifest" href="/manifest.json" />
-        
-        {/* Structured Data for Organization */}
+    <html lang="en" suppressHydrationWarning className={`${inter.variable} ${sora.variable}`}>
+      <body className="min-h-dvh">
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "TravelAgency",
-              "name": "Galaxy Time Tour",
-              "description": "Premium travel experiences in Thailand",
-              "url": "https://galaxytimetour.com",
-              "logo": "https://galaxytimetour.com/logo.png",
-              "image": "https://galaxytimetour.com/hero-image.jpg",
-              "telephone": "+66-951123458",
-              "email": "info@galaxytimetour.com",
-              "address": {
-                "@type": "PostalAddress",
-                "streetAddress": "145, 24, Muang Pattaya",
-                "addressLocality": "Bang Lamung District",
-                "addressRegion": "Chon Buri",
-                "postalCode": "20150",
-                "addressCountry": "TH"
-              },
-              "geo": {
-                "@type": "GeoCoordinates",
-                "latitude": 13.7563,
-                "longitude": 100.5018
-              },
-              "openingHours": "Mo-Su 09:00-18:00",
-              "priceRange": "$",
-              "currenciesAccepted": "THB, USD, EUR",
-              "paymentAccepted": "Cash, Credit Card, Bank Transfer",
-              "areaServed": "Thailand",
-              "serviceType": "Travel Agency",
-              "hasOfferCatalog": {
-                "@type": "OfferCatalog",
-                "name": "Thailand Travel Packages",
-                "itemListElement": [
-                  {
-                    "@type": "Offer",
-                    "itemOffered": {
-                      "@type": "TouristTrip",
-                      "name": "Phuket Beach Adventure",
-                      "description": "Explore pristine beaches and crystal clear waters"
-                    }
-                  }
-                ]
-              },
-              "sameAs": [
-                "https://www.facebook.com/galaxytimetour",
-                "https://twitter.com/galaxytimetour",
-                "https://www.instagram.com/galaxytimetour"
-              ]
-            })
-          }}
+          // JSON.stringify output is safe here: the data is static and contains no "</script>".
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
-      </head>
-      <body>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} disableTransitionOnChange>
           <CurrencyProvider>
-            <div className="relative min-h-screen flex flex-col">
-              <MainNav />
-              <main className="flex-1">{children}</main>
-              <SiteFooter />
-            </div>
+            <a
+              href="#main"
+              className="sr-only z-[60] rounded-full bg-background px-4 py-2 focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
+            >
+              Skip to content
+            </a>
+            <SiteHeader />
+            <main id="main" className="min-h-dvh">
+              {children}
+            </main>
+            <SiteFooter />
+            <WhatsAppButton />
           </CurrencyProvider>
         </ThemeProvider>
       </body>
     </html>
   )
 }
-

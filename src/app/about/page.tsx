@@ -1,141 +1,129 @@
+import type { Metadata } from "next"
 import Image from "next/image"
-import { Calendar, Globe2, MapPin, Users2 } from "lucide-react"
+import { Award, Compass, HeartHandshake, Languages, ShieldCheck, Sparkles } from "lucide-react"
 
-export default function AboutUs() {
-  const stats = [
-    {
-      icon: <Users2 className="w-6 h-6" />,
-      value: "50K+",
-      label: "Happy Travelers",
-    },
-    {
-      icon: <Globe2 className="w-6 h-6" />,
-      value: "100+",
-      label: "Destinations",
-    },
-    {
-      icon: <Calendar className="w-6 h-6" />,
-      value: "15+",
-      label: "Years Experience",
-    },
-    {
-      icon: <MapPin className="w-6 h-6" />,
-      value: "24/7",
-      label: "Support",
-    },
-  ]
+import { CtaBand } from "@/components/cta-band"
+import { Stats } from "@/components/home/stats"
+import { Reveal, Stagger, StaggerItem } from "@/components/motion/reveal"
+import { PageHero } from "@/components/page-hero"
+import { SectionHeading } from "@/components/section-heading"
+import { siteConfig } from "@/lib/site"
 
-
-  return (
-    <div className="min-h-screen bg-background flex flex-col items-center justify-center py-12">
-      {/* Hero Section */}
-      <section className="relative flex flex-col items-center justify-center overflow-hidden mt-2 mb-10">
-        <div className="relative w-full flex justify-center">
-          <Image
-            src="/ImgGallery/aboutUs_1.png"
-            alt="Travel landscape"
-            width={1536}
-            height={1024}
-            className="object-contain w-full h-auto max-h-[700px] rounded-lg shadow-lg"
-            priority
-            placeholder="blur"
-            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
-          />
-        </div>
-
-        {/* Text overlay */}
-        {/* <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40">
-          <div className="relative z-10 text-center text-white space-y-4 max-w-3xl px-10">
-            <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
-              Our Journey in Creating Perfect Travels
-            </h1>
-            <p className="text-lg md:text-xl text-gray-200">
-              Crafting unforgettable experiences and turning travel dreams into reality since 2009
-            </p>
-          </div>
-        </div> */}
-      </section>
-
-      {/* Stats Section */}
-      <section className="py-16 bg-primary/5 rounded-lg">
-        <div className="container mx-auto px-4 ">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 ">
-            {stats.map((stat, index) => (
-              <div key={index} className="text-center space-y-2">
-                <div className="mx-auto w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
-                  {stat.icon}
-                </div>
-                <div className="text-3xl font-bold">{stat.value}</div>
-                <div className="text-muted-foreground">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Story Section */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="space-y-6">
-              <h2 className="text-3xl font-bold tracking-tight">Our Story</h2>
-              <div className="space-y-4 text-muted-foreground">
-                <p>
-                  Founded in 2009, our journey began with a simple yet powerful vision: to transform how people
-                  experience the world. We believed that travel should be more than just visiting new places – it should
-                  be about creating meaningful connections and unforgettable moments.
-                </p>
-                <p>
-                  Over the years, we&apos;ve grown from a small team of passionate travelers to a global community of
-                  adventure seekers and cultural enthusiasts. Our commitment to excellence and personalized service has
-                  earned us the trust of thousands of travelers worldwide.
-                </p>
-                <p>
-                  Today, we continue to innovate and expand our horizons, always staying true to our core mission of
-                  providing exceptional travel experiences that inspire and transform.
-                </p>
-              </div>
-            </div>
-            <div className="relative h-[400px] rounded-lg overflow-hidden">
-              <Image
-                  src="/ImgGallery/package_32.png"
-                  alt="Travel landscape"
-                  fill
-                  className="object-cover rounded-lg shadow-lg"
-                  loading="lazy"
-                  placeholder="blur"
-                  blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Team Section */}
-      {/* <section className="py-16 bg-primary/5 rounded-lg">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold tracking-tight text-center mb-12">Meet Our Team</h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            {team.map((member, index) => (
-              <div key={index} className="bg-card rounded-lg overflow-hidden shadow-lg"> */}
-                {/* <Image
-                  src={member.image || "/placeholder.svg"}
-                  alt={member.name}
-                  width={400}
-                  height={400}
-                  className="w-full h-64 object-cover"
-                /> */}
-                {/* <div className="p-6">
-                  <h3 className="text-xl font-semibold mb-1">{member.name}</h3>
-                  <p className="text-primary mb-3">{member.role}</p>
-                  <p className="text-muted-foreground">{member.bio}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section> */}
-    </div>
-  )
+export const metadata: Metadata = {
+  title: "About Us — TAT-licensed Thailand Travel Experts",
+  description: `Meet ${siteConfig.legalName}: a Grade A, TAT-licensed travel company in Pattaya crafting personalised Thailand trips since 2009.`,
+  alternates: { canonical: "/about" },
 }
 
+const values = [
+  { Icon: Compass, title: "Local by design", text: "We live where you'll travel. Every hotel, guide and boat operator is someone we know personally." },
+  { Icon: HeartHandshake, title: "Personal, always", text: "No templates. Each itinerary is built around your pace, budget and the moments you'll remember." },
+  { Icon: Languages, title: "We speak your language", text: `Support in ${siteConfig.languages.join(", ")} — before you book, while you travel and after you're home.` },
+  { Icon: ShieldCheck, title: "Licensed & accountable", text: `${siteConfig.license}, Grade A classification. Your trip is in safe, regulated hands.` },
+]
+
+const milestones = [
+  { year: "2009", text: "Founded with a simple idea: travel should create meaningful connections, not just photos." },
+  { year: "Growth", text: "From a small team of passionate travellers to a trusted partner for families, groups and agencies." },
+  { year: "B2B", text: "Competitive partner pricing and one-hour response times for travel agencies worldwide." },
+  { year: "Today", text: "Eight signature destinations, thousands of happy travellers and a team on call 24/7." },
+]
+
+export default function AboutPage() {
+  return (
+    <>
+      <PageHero
+        image="/thailand/thai_3.png"
+        eyebrow="About us"
+        title={<>Crafting Thailand journeys <span className="text-gradient">since 2009</span></>}
+        description="We're a Pattaya-based, TAT-licensed team turning travel dreams into seamless, unforgettable trips."
+        breadcrumbs={[{ name: "Home", href: "/" }, { name: "About" }]}
+      />
+
+      <section className="container grid items-center gap-12 py-20 lg:grid-cols-2 lg:gap-16">
+        <Reveal className="relative">
+          <div className="relative aspect-[4/3] overflow-hidden rounded-[2rem] border shadow-2xl">
+            <video
+              className="absolute inset-0 size-full object-cover"
+              src="/Videos/about_vid_1.mp4"
+              poster="/hero_image.webp"
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              aria-label="Galaxy Time Tour travel highlights"
+            />
+          </div>
+          <div className="glass absolute -bottom-6 -left-4 flex items-center gap-3 rounded-2xl p-4 shadow-xl sm:-left-8">
+            <span className="bg-brand-gradient grid size-11 place-items-center rounded-xl text-white"><Award className="size-6" /></span>
+            <div>
+              <p className="font-display font-bold">Grade A</p>
+              <p className="text-xs text-muted-foreground">{siteConfig.license}</p>
+            </div>
+          </div>
+        </Reveal>
+        <div className="space-y-6">
+          <SectionHeading align="left" eyebrow="Our story" title="More than a trip — a story you'll keep telling" />
+          <Reveal delay={0.1} className="space-y-4 text-muted-foreground">
+            <p>
+              Our journey began in 2009 with a simple yet powerful vision: to transform how people experience Thailand.
+              We believe travel should be more than visiting new places — it should create meaningful connections and
+              unforgettable moments.
+            </p>
+            <p>
+              Today {siteConfig.legalName} is a fully licensed, Grade A travel company based in Pattaya. Our team
+              combines deep regional knowledge with exclusive hotel and transport deals, private and shared transfers,
+              sightseeing across every major city and island, and custom packages for families, groups and leisure
+              travellers.
+            </p>
+            <p>We respond to every enquiry within an hour, and we guarantee competitive B2B pricing with the personal touch your clients deserve.</p>
+          </Reveal>
+        </div>
+      </section>
+
+      <section className="container pb-20">
+        <Stats />
+      </section>
+
+      <section className="border-y bg-muted/40 py-20">
+        <div className="container space-y-12">
+          <SectionHeading eyebrow="What we stand for" title="The way we travel" />
+          <Stagger className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {values.map(({ Icon, title, text }) => (
+              <StaggerItem key={title} className="rounded-3xl border bg-card p-6 transition hover:-translate-y-1 hover:shadow-xl">
+                <span className="bg-brand-gradient mb-5 grid size-12 place-items-center rounded-2xl text-white shadow-lg shadow-brand-magenta/25"><Icon className="size-6" /></span>
+                <h3 className="text-lg font-bold">{title}</h3>
+                <p className="mt-2 text-sm text-muted-foreground">{text}</p>
+              </StaggerItem>
+            ))}
+          </Stagger>
+        </div>
+      </section>
+
+      <section className="container grid gap-12 py-20 lg:grid-cols-[1fr_1.2fr]">
+        <div className="space-y-6">
+          <SectionHeading align="left" eyebrow="Our journey" title="Built on trust, one trip at a time" />
+          <Reveal className="relative hidden aspect-square overflow-hidden rounded-[2rem] lg:block">
+            <Image src="/ImgGallery/package_32.png" alt="Travellers exploring Thailand" fill sizes="40vw" className="object-cover" />
+          </Reveal>
+        </div>
+        <ol className="relative space-y-8 border-l border-dashed pl-8">
+          {milestones.map((m, i) => (
+            <li key={m.year} className="relative">
+              <Reveal delay={i * 0.08}>
+                <span className="bg-brand-gradient absolute top-1 -left-[42px] grid size-5 place-items-center rounded-full ring-4 ring-background">
+                  <Sparkles className="size-3 text-white" />
+                </span>
+                <p className="font-display text-2xl font-extrabold text-gradient">{m.year}</p>
+                <p className="mt-1 text-muted-foreground">{m.text}</p>
+              </Reveal>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <CtaBand />
+    </>
+  )
+}
