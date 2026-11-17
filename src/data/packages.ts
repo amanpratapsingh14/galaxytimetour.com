@@ -3,10 +3,6 @@ export interface PackageItinerary {
   activity: string
 }
 
-export interface PackageInclusion {
-  type: string
-  description: string
-}
 
 export interface TravelPackage {
   id: string
@@ -560,9 +556,16 @@ export const comboPackages: TravelPackage[] = [
   }
 ]
 
-// Pricing Summary
-export const pricingSummary = {
-  singlePackagesAverage: 51211,
-  comboPackagesAverage: 20999,
-  totalBudget: 370429,
+export const allPackages: TravelPackage[] = [...packages, ...comboPackages]
+
+export function getPackagesForDestination(destinationId: string) {
+  return packages.filter((pkg) => pkg.destinationId === destinationId)
+}
+
+export function getPackage(id: string) {
+  return allPackages.find((pkg) => pkg.id === id)
+}
+
+export function isCombo(pkg: TravelPackage) {
+  return comboPackages.includes(pkg)
 }

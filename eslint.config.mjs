@@ -1,77 +1,19 @@
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-import { FlatCompat } from "@eslint/eslintrc";
+import { defineConfig, globalIgnores } from "eslint/config";
+import nextVitals from "eslint-config-next/core-web-vitals";
+import nextTs from "eslint-config-next/typescript";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
-
-const config = [
-  ...compat.extends("next/core-web-vitals", "next/typescript"),
+export default defineConfig([
+  ...nextVitals,
+  ...nextTs,
   {
     rules: {
-      // Performance rules
-      "react/jsx-no-constructed-context-values": "off", // Allow constructed context values
-      "react/jsx-no-useless-fragment": "error",
-      "react/no-array-index-key": "off", // Allow array index as key
-      "react/no-unstable-nested-components": "error",
-      
-      // Accessibility rules
-      "jsx-a11y/alt-text": "error",
-      "jsx-a11y/anchor-has-content": "error",
-      "jsx-a11y/anchor-is-valid": "error",
-      "jsx-a11y/aria-props": "error",
-      "jsx-a11y/aria-proptypes": "error",
-      "jsx-a11y/aria-unsupported-elements": "error",
-      "jsx-a11y/role-has-required-aria-props": "error",
-      "jsx-a11y/role-supports-aria-props": "error",
-      
-      // Code quality rules
+      "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
       "prefer-const": "error",
       "no-var": "error",
-      "no-console": "off", // Allow console statements
-      "no-debugger": "error",
-      "no-alert": "off", // Allow alert statements
       "no-eval": "error",
       "no-implied-eval": "error",
       "no-new-func": "error",
-      "no-script-url": "error",
-      
-      // Import rules
-      "import/no-unresolved": "off", // Next.js handles this
-      "import/order": "off", // Disabled - too many conflicts with existing code
-      
-      // TypeScript specific rules
-      "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
-      "@typescript-eslint/explicit-function-return-type": "off",
-      "@typescript-eslint/explicit-module-boundary-types": "off",
-      "@typescript-eslint/no-explicit-any": "warn",
-      "@typescript-eslint/prefer-nullish-coalescing": "off", // Disabled - requires type information
-      "@typescript-eslint/prefer-optional-chain": "off", // Disabled - requires type information
-      
-      // Next.js specific rules
-      "@next/next/no-img-element": "warn",
-      "@next/next/no-html-link-for-pages": "error",
-      "@next/next/no-sync-scripts": "error",
-      "@next/next/no-css-tags": "error",
-      "@next/next/no-page-custom-font": "warn",
     },
   },
-  {
-    files: ["**/*.ts", "**/*.tsx"],
-    languageOptions: {
-      parserOptions: {
-        ecmaVersion: "latest",
-        sourceType: "module",
-        ecmaFeatures: {
-          jsx: true,
-        },
-      },
-    },
-  },
-];
-
-export default config;
+  globalIgnores([".next/**", "out/**", "build/**", "next-env.d.ts"]),
+]);

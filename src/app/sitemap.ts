@@ -1,68 +1,25 @@
-import { MetadataRoute } from 'next'
+import type { MetadataRoute } from "next"
+
+import { destinations } from "@/data/destinations"
+import { mainNav, siteConfig } from "@/lib/site"
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://galaxytimetour.com'
-  
-  // Static pages
-  const staticPages = [
-    {
-      url: baseUrl,
-      lastModified: new Date(),
-      changeFrequency: 'daily' as const,
-      priority: 1,
-    },
-    {
-      url: `${baseUrl}/about`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
+  const lastModified = new Date()
+
+  return [
+    { url: siteConfig.url, lastModified, changeFrequency: "weekly", priority: 1 },
+    ...mainNav.map((n) => ({
+      url: `${siteConfig.url}${n.href}`,
+      lastModified,
+      changeFrequency: "weekly" as const,
+      priority: n.href === "/destinations" || n.href === "/packages" ? 0.9 : 0.7,
+    })),
+    ...destinations.map((d) => ({
+      url: `${siteConfig.url}/book/${d.id}`,
+      lastModified,
+      changeFrequency: "weekly" as const,
       priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/destinations`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/packages`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/gallery`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly' as const,
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/contact`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
-      priority: 0.6,
-    },
+      images: d.images.map((src) => `${siteConfig.url}${src}`),
+    })),
   ]
-
-  // Dynamic destination pages (you can expand this based on your destinations)
-  const destinations = [
-    'phuket',
-    'bangkok',
-    'pattaya',
-    'chiang-mai',
-    'krabi',
-    'koh-samui',
-    'ayutthaya',
-    'sukhothai',
-    'kanchanaburi',
-    'rayong'
-  ]
-
-  const destinationPages = destinations.map((destination) => ({
-    url: `${baseUrl}/book/${destination}`,
-    lastModified: new Date(),
-    changeFrequency: 'weekly' as const,
-    priority: 0.8,
-  }))
-
-  return [...staticPages, ...destinationPages]
 }

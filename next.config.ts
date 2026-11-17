@@ -1,111 +1,67 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from "next"
+
+const isDev = process.env.NODE_ENV !== "production"
+
+// Next.js injects inline bootstrap scripts, so script-src needs 'unsafe-inline' unless
+// every page is rendered dynamically with a nonce. Everything else is locked to our origin.
+const contentSecurityPolicy = [
+  "default-src 'self'",
+  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""} https://va.vercel-scripts.com`,
+  "style-src 'self' 'unsafe-inline'",
+  "img-src 'self' data: blob:",
+  "font-src 'self' data:",
+  "media-src 'self'",
+  "connect-src 'self' https://vitals.vercel-insights.com https://va.vercel-scripts.com",
+  "frame-src https://www.google.com https://maps.google.com",
+  "frame-ancestors 'none'",
+  "base-uri 'self'",
+  "form-action 'self'",
+  "object-src 'none'",
+  ...(isDev ? [] : ["upgrade-insecure-requests"]),
+].join("; ")
 
 const nextConfig: NextConfig = {
-  // Performance optimizations
-  experimental: {
-    optimizePackageImports: ['lucide-react', '@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu'],
-    turbo: {
-      rules: {
-        '*.svg': {
-          loaders: ['@svgr/webpack'],
-          as: '*.js',
-        },
-      },
-    },
-  },
-
-  // Image optimization
-  images: {
-    formats: ['image/webp', 'image/avif'],
-    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
-    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-    minimumCacheTTL: 60,
-    dangerouslyAllowSVG: true,
-    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
-  },
-
-  // Compression and optimization
-  compress: true,
   poweredByHeader: false,
-  generateEtags: true,
+  reactStrictMode: true,
 
-  // Security headers
+  experimental: {
+    optimizePackageImports: ["lucide-react", "motion"],
+  },
+
+  images: {
+    formats: ["image/avif", "image/webp"],
+    qualities: [75, 90],
+    minimumCacheTTL: 60 * 60 * 24 * 30,
+  },
+
   async headers() {
     return [
       {
-        source: '/(.*)',
+        source: "/(.*)",
         headers: [
-          {
-            key: 'X-Frame-Options',
-            value: 'DENY',
-          },
-          {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff',
-          },
-          {
-            key: 'Referrer-Policy',
-            value: 'origin-when-cross-origin',
-          },
-          {
-            key: 'X-DNS-Prefetch-Control',
-            value: 'on',
-          },
-          {
-            key: 'Strict-Transport-Security',
-            value: 'max-age=31536000; includeSubDomains',
-          },
-          {
-            key: 'Permissions-Policy',
-            value: 'camera=(), microphone=(), geolocation=()',
-          },
+          { key: "Content-Security-Policy", value: contentSecurityPolicy },
+          { key: "X-Frame-Options", value: "DENY" },
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
+          { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=(), browsing-topics=()" },
+          { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
         ],
       },
       {
-        source: '/api/(.*)',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'no-store, max-age=0',
-          },
-        ],
+        source: "/:dir(Videos|bangkok|chiang_mai|chiang_rai|hua_hin|koh_samui|krabi|pattaya|phuket|thailand|ImgGallery)/:file*",
+        headers: [{ key: "Cache-Control", value: "public, max-age=2592000, stale-while-revalidate=86400" }],
       },
-    ];
+    ]
   },
 
-  // Redirects for SEO
   async redirects() {
     return [
-      {
-        source: '/home',
-        destination: '/',
-        permanent: true,
-      },
-      {
-        source: '/tours',
-        destination: '/destinations',
-        permanent: true,
-      },
-    ];
+      { source: "/home", destination: "/", permanent: true },
+      { source: "/tours", destination: "/packages", permanent: true },
+      { source: "/book", destination: "/destinations", permanent: false },
+    ]
   },
+}
 
-  // Webpack optimizations
-  webpack: (config, { dev, isServer }) => {
-    if (!dev && !isServer) {
-      // Production optimizations
-      config.optimization.splitChunks = {
-        chunks: 'all',
-        cacheGroups: {
-          vendor: {
-            test: /[\\/]node_modules[\\/]/,
-            name: 'vendors',
-            chunks: 'all',
-          },
-        },
-      };
-    }
-    return config;
-  },
-};
-
-export default nextConfig;
+export default nextConfig

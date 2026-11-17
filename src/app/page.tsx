@@ -1,259 +1,222 @@
-"use client"
-
-import Image from "next/image"
 import Link from "next/link"
-import { ArrowRight, CheckCircle2, Globe2, MapPin, Star, Users2, ChevronLeft, ChevronRight, Phone } from "lucide-react"
-import { useState, useEffect } from "react"
+import { ArrowRight, BadgeCheck, Car, Headphones, Hotel, MessageSquareText, Mountain, Plane, Route, Sparkles, UtensilsCrossed, Wallet } from "lucide-react"
 
+import { CtaBand } from "@/components/cta-band"
+import { DestinationExplorer } from "@/components/destination-explorer"
+import { Hero } from "@/components/home/hero"
+import { PackageCarousel } from "@/components/home/package-carousel"
+import { Stats } from "@/components/home/stats"
+import { Reveal, Stagger, StaggerItem } from "@/components/motion/reveal"
+import { PhotoMarquee } from "@/components/photo-marquee"
+import { SectionHeading } from "@/components/section-heading"
+import { Starfield } from "@/components/starfield"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
 import { destinations } from "@/data/destinations"
+import { galleryPhotos } from "@/data/gallery"
+import { allPackages } from "@/data/packages"
+import { siteConfig } from "@/lib/site"
+
+const features = [
+  {
+    Icon: Mountain,
+    title: "Thrilling adventures",
+    description: "Cliff-jumping on the islands, jungle zip-lines, diving the Andaman — curated with trusted local operators.",
+  },
+  {
+    Icon: UtensilsCrossed,
+    title: "Authentic Thai cuisine",
+    description: "Street-food trails, floating markets and cooking classes built around fresh herbs and regional flavours.",
+  },
+  {
+    Icon: Hotel,
+    title: "Stays for every style",
+    description: "From cosy boutique inns to 5★ beachfront resorts — exclusive rates on hotels we've personally vetted.",
+  },
+  {
+    Icon: Wallet,
+    title: "Honest, unbeatable prices",
+    description: "Direct contracts with hotels and transport mean premium experiences without the premium mark-up.",
+  },
+  {
+    Icon: Car,
+    title: "Private & shared transfers",
+    description: "Airport pickups, intercity drives and island ferries — door to door, all arranged before you land.",
+  },
+  {
+    Icon: Headphones,
+    title: "24/7 multilingual support",
+    description: `Our team speaks ${siteConfig.languages.join(", ")} and is on call before, during and after your trip.`,
+  },
+]
+
+const steps = [
+  { Icon: MessageSquareText, title: "Tell us your dream", description: "Share dates, budget and must-dos via the form or WhatsApp." },
+  { Icon: Route, title: "Get your itinerary", description: "A tailored day-by-day plan and transparent quote — usually within the hour." },
+  { Icon: Plane, title: "Travel stress-free", description: "We handle hotels, transfers and tours. You just enjoy Thailand." },
+]
+
+const marqueePhotos = galleryPhotos.filter((p) => p.place === "Moments" && p.width >= 340)
 
 export default function HomePage() {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [showAllDestinations, setShowAllDestinations] = useState(false);
+  const featured = allPackages.filter((p) => p.type === "premium" || p.id.endsWith("combo"))
 
-  const slides = [
-    {
-      type: 'video',
-      content: '/Videos/vid1.mp4'
-    },
-    {
-      type: 'image',
-      content: '/hero_image.webp',
-      title: "Your Journey Begins Here",
-      description: "Discover extraordinary destinations and create unforgettable memories with our expertly curated travel experiences."
-    }
-  ];
-
-  useEffect(() => {
-    const videoElement = document.querySelector('video');
-    if (videoElement) {
-      videoElement.addEventListener('ended', () => {
-        setCurrentSlide(1);
-      });
-    }
-  }, []);
-
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % slides.length);
-  };
-
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
-  };
-
-  const features = [
-    {
-      icon: <Globe2 className="h-8 w-8" />,
-      title: "🧗‍♂️ Thrilling Adventures",
-      description: "Discover the wild side of Thailand with unforgettable adventure sports—from island cliff-jumping to jungle zip-lining.",
-    },
-    {
-      icon: <Users2 className="h-8 w-8" />,
-      title: "🍜 Authentic Thai Cuisine",
-      description: "Savor rich flavors with traditional Thai dishes made from unique blends of fresh herbs, spices, and regional ingredients.",
-    },
-    {
-      icon: <Star className="h-8 w-8" />,
-      title: "🏨 Comfortable & Affordable Stays",
-      description: "Whether it&apos;s a cozy budget inn or a luxury 5-star resort, we offer hotel options to suit every traveler&apos;s style and budget.",
-    },
-    {
-      icon: <CheckCircle2 className="h-8 w-8" />,
-      title: "💰 Unbeatable Prices",
-      description: "Premium travel experiences at prices no one can match—crafted for value without compromise."
-    },
-    {
-      icon: <Phone className="h-8 w-8" />,
-      title: "� 24/7 Support",
-      description: "Travel stress-free knowing our multilingual support team is available around the clock—before, during, and after your trip."
-    }
-  ]
-
-  
   return (
-    <div className="flex min-h-screen flex-col">
-      <main className="flex-1">
-        {/* Hero Section */}
-        <section className="relative h-[80vh]">
-          <div className="absolute inset-0">
-            {currentSlide === 0 && (
-              <video
-                src="/Videos/vid1.mp4"
-                autoPlay
-                muted
-                loop={false}
-                playsInline
-                className="object-cover w-full h-full"
-              />
-            )}
-            {currentSlide === 1 && (
-              <Image
-                src="/hero_image.webp"
-                alt="Travel destinations"
-                fill
-                className="object-cover"
-                priority
-              />
-            )}
-            <div className="absolute inset-0 bg-gradient-to-r from-background/30 to-background/30" />
-          </div>
-          
-          <div className="container mx-auto relative h-full flex items-center">
-            <div className="flex flex-col items-center text-center gap-4 max-w-[640px] mx-auto transition-opacity duration-500"
-                 style={{ opacity: currentSlide === 1 ? 1 : 0 }}>
-              <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl text-white drop-shadow-lg">
-                Your Journey Begins Here
-              </h1>
-              <p className="max-w-[600px] text-lg sm:text-xl text-white/90 md:text-2xl drop-shadow-md">
-                Discover extraordinary destinations and create unforgettable memories with our expertly curated travel
-                experiences.
-              </p>
-              <Button size="lg" asChild className="bg-white/90 hover:bg-white text-black">
-                <Link href="/destinations">
-                  Start Planning <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-            </div>
-          </div>
+    <>
+      <Hero />
 
-          {/* Navigation Controls */}
-          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex items-center gap-4">
-            <Button
-              variant="outline"
-              size="icon"
-              className="rounded-full bg-white/80 hover:bg-white text-black"
-              onClick={prevSlide}
-            >
-              <ChevronLeft className="h-6 w-6" />
+      {/* Destination ticker */}
+      <div className="border-y bg-muted/40 py-4">
+        <div className="relative overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_10%,#000_90%,transparent)]">
+          <div className="flex w-max animate-marquee gap-10 font-display text-lg font-semibold text-muted-foreground">
+            {[...destinations, ...destinations].map((d, i) => (
+              <span key={i} aria-hidden={i >= destinations.length} className="flex items-center gap-10">
+                {d.name} <span className="text-brand-gold">✦</span>
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Intro + stats */}
+      <section id="discover" className="relative scroll-mt-20 overflow-hidden py-20 md:py-28">
+        <div className="container grid items-center gap-12 lg:grid-cols-2">
+          <SectionHeading
+            align="left"
+            eyebrow="Why Galaxy Time Tour"
+            title={
+              <>
+                Your trusted one-stop partner for <span className="text-gradient">Thailand</span>
+              </>
+            }
+            description={
+              <>
+                {siteConfig.legalName} is licensed by the Tourism Authority of Thailand ({siteConfig.license.replace("TAT License ", "")}) with a
+                Grade A classification. From our base in Pattaya we design personalised trips for families, couples,
+                groups and B2B partners — and we answer every enquiry within an hour.
+              </>
+            }
+          />
+          <Stats />
+        </div>
+      </section>
+
+      {/* Destinations */}
+      <section className="relative py-20 md:py-28">
+        <div className="container space-y-12">
+          <SectionHeading
+            eyebrow="Destinations"
+            title="Where will Thailand take you?"
+            description="Eight signature destinations, from Andaman islands to the misty mountains of the north. Filter by the vibe you're after."
+          />
+          <DestinationExplorer />
+          <Reveal className="text-center">
+            <Button asChild variant="outline" size="lg">
+              <Link href="/destinations">
+                Compare all destinations <ArrowRight />
+              </Link>
             </Button>
-            <div className="flex gap-2">
-              {slides.map((_, index) => (
-                <button
-                  key={index}
-                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                    currentSlide === index ? 'bg-white w-4' : 'bg-white/50'
-                  }`}
-                  onClick={() => setCurrentSlide(index)}
-                />
-              ))}
-            </div>
-            <Button
-              variant="outline"
-              size="icon"
-              className="rounded-full bg-white/80 hover:bg-white text-black"
-              onClick={nextSlide}
-            >
-              <ChevronRight className="h-6 w-6" />
+          </Reveal>
+        </div>
+      </section>
+
+      {/* Features */}
+      <section className="relative isolate overflow-hidden bg-[oklch(0.12_0.04_275)] py-20 text-white md:py-28">
+        <Starfield className="-z-10" dense />
+        <div className="container space-y-14">
+          <SectionHeading
+            eyebrow="The Galaxy difference"
+            title={
+              <span className="text-white">
+                Everything handled. <span className="text-gradient">Nothing ordinary.</span>
+              </span>
+            }
+            description={<span className="text-white/70">Deep regional knowledge, exclusive hotel and transport deals, and a team that actually picks up the phone.</span>}
+          />
+          <Stagger className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {features.map(({ Icon, title, description }) => (
+              <StaggerItem
+                key={title}
+                className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.04] p-7 backdrop-blur transition-colors duration-500 hover:border-white/25 hover:bg-white/[0.08]"
+              >
+                <div className="bg-brand-gradient absolute -top-16 -right-16 size-40 rounded-full opacity-0 blur-3xl transition-opacity duration-700 group-hover:opacity-40" />
+                <div className="bg-brand-gradient mb-5 grid size-12 place-items-center rounded-2xl shadow-lg shadow-brand-magenta/30">
+                  <Icon className="size-6 text-white" />
+                </div>
+                <h3 className="text-xl font-bold">{title}</h3>
+                <p className="mt-2 text-white/65">{description}</p>
+              </StaggerItem>
+            ))}
+          </Stagger>
+        </div>
+      </section>
+
+      {/* Packages */}
+      <section className="py-20 md:py-28">
+        <div className="container space-y-12">
+          <SectionHeading
+            align="left"
+            eyebrow="Handpicked packages"
+            title="Premium escapes & multi-city combos"
+            description="All-inclusive itineraries with hotels, transfers and guided tours. Every package can be tailored."
+          />
+          <PackageCarousel items={featured} />
+          <Reveal>
+            <Button asChild variant="outline" size="lg">
+              <Link href="/packages">
+                Browse all {allPackages.length} packages <ArrowRight />
+              </Link>
             </Button>
-          </div>
-        </section>
+          </Reveal>
+        </div>
+      </section>
 
-        {/* Features Section */}
-        <section className="container mx-auto py-16 md:py-24">
-          <div className="grid gap-12">
-            <div className="text-center space-y-4">
-              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">Why Travel with Us?</h2>
-              <p className="mx-auto max-w-[700px] text-lg text-muted-foreground">
-                At Galaxy Time Tour Co., Ltd., we specialize in crafting personalized, high-quality travel experiences across Thailand. With full licensing by the Tourism Authority of Thailand (TAT No. 14/03381), and a Grade A classification, we&apos;re your trusted one-stop travel partner based in Pattaya.
-                Our experienced team combines deep regional knowledge, 24/7 multilingual support (English, Hindi & Thai), exclusive hotel and transport deals, and unbeatable customer service. Whether it&apos;s private or shared transfers, sightseeing across major cities and islands, or custom packages for groups and leisure travelers—we ensure every trip is seamless and unforgettable.
-                We respond to all your queries within an hour and guarantee competitive B2B pricing with the personal touch your clients deserve.
-              </p>
-            </div>
-            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-              {features.map((feature) => (
-                <Card key={feature.title}>
-                  <CardContent className="p-6 space-y-2">
-                    <div className="p-2 w-fit rounded-lg bg-primary/10 text-primary">{feature.icon}</div>
-                    <h3 className="font-semibold text-xl">{feature.title}</h3>
-                    <p className="text-muted-foreground">{feature.description.replace(/'/g, "&apos;")}</p>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-        </section>
+      {/* How it works */}
+      <section className="border-y bg-muted/40 py-20 md:py-28">
+        <div className="container space-y-14">
+          <SectionHeading eyebrow="How it works" title="From idea to itinerary in three steps" />
+          <Stagger className="relative grid gap-6 md:grid-cols-3">
+            <div aria-hidden className="absolute top-10 right-[16%] left-[16%] hidden h-px bg-gradient-to-r from-brand-magenta via-brand-violet to-brand-cyan md:block" />
+            {steps.map(({ Icon, title, description }, i) => (
+              <StaggerItem key={title} className="relative text-center">
+                <div className="relative mx-auto grid size-20 place-items-center rounded-full border bg-card shadow-lg">
+                  <Icon className="size-8 text-highlight" />
+                  <span className="bg-brand-gradient absolute -top-1 -right-1 grid size-7 place-items-center rounded-full text-xs font-bold text-white">
+                    {i + 1}
+                  </span>
+                </div>
+                <h3 className="mt-6 text-xl font-bold">{title}</h3>
+                <p className="mx-auto mt-2 max-w-xs text-muted-foreground">{description}</p>
+              </StaggerItem>
+            ))}
+          </Stagger>
+        </div>
+      </section>
 
-        {/* Featured Destinations */}
-        <section className="border-t bg-muted/40">
-          <div className="container mx-auto py-16 md:py-24">
-            <div className="grid gap-12">
-              <div className="text-center space-y-4">
-                <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">Popular Destinations</h2>
-                <p className="mx-auto max-w-[700px] text-lg text-muted-foreground">
-                  Explore our most sought-after destinations, each offering unique experiences and unforgettable
-                  moments.
-                </p>
-              </div>
-              <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-                {destinations
-                  .slice(0, showAllDestinations ? destinations.length : 6)
-                  .map((destination) => (
-                  <Card key={destination.name} className="overflow-hidden group hover:shadow-lg transition-all duration-300">
-                    <div className="aspect-[4/3] relative overflow-hidden">
-                      <Image
-                        src={destination.image}
-                        alt={destination.name}
-                        fill
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                        className="object-cover transition-transform duration-500 group-hover:scale-110"
-                        priority={destinations.indexOf(destination) < 3}
-                        loading={destinations.indexOf(destination) < 3 ? "eager" : "lazy"}
-                        placeholder="blur"
-                        blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    </div>
-                    <CardContent className="p-6">
-                      <div className="space-y-2">
-                        <div className="flex items-center gap-2">
-                          <MapPin className="h-4 w-4 text-primary" />
-                          <h3 className="font-semibold text-xl">{destination.name}</h3>
-                        </div>
-                        <p className="text-muted-foreground">{destination.description}</p>
-                        <Button variant="link" className="p-0 group-hover:text-primary transition-colors" asChild>
-                          <Link href={`/book/${destination.id}`}>
-                            Learn more <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                          </Link>
-                        </Button>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-              <div className="text-center">
-                <Button 
-                  size="lg" 
-                  variant="outline" 
-                  onClick={() => setShowAllDestinations(!showAllDestinations)}
-                  className="hover:bg-primary hover:text-primary-foreground transition-colors"
-                >
-                  {showAllDestinations ? "Show Less" : "View All Destinations"} 
-                  <ArrowRight className={`ml-2 h-4 w-4 transition-transform ${showAllDestinations ? 'rotate-180' : ''}`} />
-                </Button>
-              </div>
-            </div>
-          </div>
-        </section>
+      {/* Photo strip */}
+      <section className="space-y-4 overflow-hidden py-20 md:py-28">
+        <div className="container mb-10 flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
+          <SectionHeading align="left" eyebrow="Travel moments" title="Real trips, real smiles" className="max-w-xl" />
+          <Reveal>
+            <Button asChild variant="outline">
+              <Link href="/gallery">
+                <Sparkles /> Open the gallery
+              </Link>
+            </Button>
+          </Reveal>
+        </div>
+        <PhotoMarquee photos={marqueePhotos.slice(0, 12).map((p) => p.src)} />
+        <PhotoMarquee photos={marqueePhotos.slice(12, 24).map((p) => p.src)} reverse />
+      </section>
 
-        {/* CTA Section */}
-        <section className="border-t">
-          <div className="container mx-auto py-16 md:py-24">
-            <div className="rounded-lg bg-primary-foreground p-8 md:p-12 lg:p-16 text-center space-y-6">
-              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Ready to Start Your Adventure?</h2>
-              <p className="mx-auto max-w-[600px] text-lg text-muted-foreground">
-                Let us help you plan the perfect trip. Our travel experts are ready to create your dream vacation.
-              </p>
-              <Button size="lg" asChild>
-                <Link href="/contact">
-                  Contact Us Today <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-            </div>
-          </div>
-        </section>
-      </main>
-    </div>
+      <div className="container">
+        <Reveal className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm text-muted-foreground">
+          <span className="flex items-center gap-2"><BadgeCheck className="size-4 text-success" /> {siteConfig.license}</span>
+          <span className="flex items-center gap-2"><BadgeCheck className="size-4 text-success" /> Grade A classification</span>
+          <span className="flex items-center gap-2"><BadgeCheck className="size-4 text-success" /> B2B partner rates</span>
+        </Reveal>
+      </div>
+
+      <CtaBand />
+    </>
   )
 }
