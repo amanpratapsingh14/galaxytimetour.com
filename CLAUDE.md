@@ -11,11 +11,21 @@ npm run dev          # dev server (Turbopack) on :3000
 npm run build        # production build — also runs the TypeScript check
 npm run lint         # eslint (flat config, eslint-config-next 16, React Compiler rules)
 npm run type-check   # tsc --noEmit
+npm test             # unit tests (Vitest, node environment)
 npx next start -p 3001   # serve a production build (needed for realistic perf testing)
 ```
 
-There is no test suite. Verify changes with `type-check`, `lint` and `build`, then check pages visually. Every route
-except `/api/form-submit` is statically pre-rendered, so a page that builds but throws at runtime shows up in `build`.
+Unit tests (Vitest 4, `vitest.config.mts`) live next to the code as `*.test.ts`. They currently cover the zod schemas
+(`src/lib/validation.test.ts`) and the `/api/form-submit` guards (`route.test.ts`, only paths that return before any
+email is sent). Write a failing test first for logic changes. UI is not unit-tested: verify changes with `npm test`,
+`type-check`, `lint` and `build`, then check pages visually. Every route except `/api/form-submit` is statically
+pre-rendered, so a page that builds but throws at runtime shows up in `build`.
+
+- Tests pin "today" with `vi.setSystemTime`, because the travel-date rules are relative to the current date.
+- Route tests give each request its own `x-real-ip`, so the in-memory rate limiter does not interfere.
+- `vitest.config.mts` aliases `@` to `src` and `server-only` to Next's no-op module.
+- Keep Vitest on a version whose `engines` allows Node 20 (the repo supports `>=20.9.0`); 4.1.12 is the first release
+  without the tinypool / @vitest/mocker advisories.
 
 On this Windows machine Node may not be on the Bash PATH: prefix commands with `export PATH="/c/Program Files/nodejs:$PATH";`.
 

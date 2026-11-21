@@ -14,6 +14,7 @@ requests, which are emailed to the team and confirmed to the customer.
 | Styling | Tailwind CSS 4 (CSS-first config in `src/app/globals.css`) · shadcn/ui-style components on Radix UI |
 | Animation | CSS (entrances, scroll-driven reveals) + `motion` via `LazyMotion` for layout animations |
 | Forms | zod schemas shared by client and server · Nodemailer over Gmail SMTP |
+| Testing | Vitest (unit tests for the form schema and API route) |
 | Hosting | Vercel (auto-deploys `main`; every branch gets a preview URL) · DNS at GoDaddy |
 
 ## Getting started
@@ -46,6 +47,10 @@ Without these, the site works but forms answer "temporarily unavailable — plea
 | `npm start` | Serve the production build |
 | `npm run lint` | ESLint (Next.js core-web-vitals + TypeScript rules) |
 | `npm run type-check` | `tsc --noEmit` |
+| `npm test` | Unit tests (Vitest): form validation and the `/api/form-submit` guards |
+
+Before opening a PR, run `npm test`, `npm run type-check`, `npm run lint` and `npm run build`. Tests live next to
+the code as `*.test.ts` files under `src/`.
 
 ## Pages
 
@@ -79,7 +84,7 @@ src/
 ├── data/                   # destinations, packages, gallery — edit these to change content
 └── lib/
     ├── site.ts             # Company details: phones, emails, address, WhatsApp, socials
-    ├── validation.ts       # zod schemas shared by forms and API
+    ├── validation.ts       # zod schemas shared by forms and API (tests: validation.test.ts)
     └── email-templates.ts  # HTML emails (all user input escaped)
 public/                     # Photos (per destination), videos, favicons
 ```
@@ -97,7 +102,7 @@ public/                     # Photos (per destination), videos, favicons
 - Security headers including a Content-Security-Policy (`next.config.ts`)
 - Form API: shared zod validation, full HTML escaping in emails, a honeypot field, a minimum fill time, a same-origin
   check, a 16 KB body limit and a per-IP rate limit (best effort on serverless; add a Vercel Firewall rule for a
-  hard limit)
+  hard limit). Booking dates must be real calendar dates. These guards are covered by unit tests.
 - `npm audit`: 0 known vulnerabilities at the time of writing
 
 ## Deployment

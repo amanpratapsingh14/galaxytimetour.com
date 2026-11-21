@@ -73,6 +73,27 @@ components; lazy video; click-to-load map; zod `jitless` mode; contrast and head
 - Contact scores about the same, but the map no longer loads unless the visitor asks for it.
 - In a real-browser test at 4× CPU throttling, the homepage's main content appears at about 1.0 s.
 
+## 2026-11-21 — Form validation fixes and first tests (PR #17, merged)
+
+**Bugs found and reproduced**
+1. The booking date only had its `YYYY-MM-DD` shape checked, so impossible dates were accepted: `2027-02-30` was
+   emailed as "Tue, 2 Mar 2027", and `2026-13-45` as "Invalid Date".
+2. The bot-trap fake success always returned a contact-style reference (`GTT-CT-…`), even for bookings, which made the
+   trap detectable.
+3. A JSON body of `null` crashed `/api/form-submit` with a 500 error.
+
+**Fixes:** `z.iso.date()` for the travel date; the fake reference now matches the form type; non-object bodies return
+400. Added Vitest with 26 unit tests, the site's first.
+
+**Verification:** tests, type check, lint and build passed; production-server checks; each fix was reverted to confirm
+a test fails; an independent review found 4 issues, all fixed.
+
+## 2026-11-21 — Vitest security alerts (PR #18, merged)
+
+PR #17 pinned Vitest 3.2.7 for Node 20 support, which triggered 5 Dependabot alerts (2 critical in `tinypool`, 3
+moderate in `vitest` / `@vitest/mocker`). Vitest is dev-only, so the live site was never exposed. Upgraded to Vitest
+4.1.12, which still supports Node 20 and drops `tinypool`: `npm audit` 0 vulnerabilities, all 5 alerts closed.
+
 ## Open items
 
 - Replace the photos with ≥1600px versions.
