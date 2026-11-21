@@ -53,7 +53,9 @@ export const bookingSchema = z.object({
   // Compared as YYYY-MM-DD strings; one day of slack covers time-zone differences.
   date: z
     .string()
-    .regex(/^\d{4}-\d{2}-\d{2}$/, "Travel date is required")
+    .min(1, "Travel date is required")
+    // z.iso.date() checks the calendar too (rejects 2027-02-30), not just the YYYY-MM-DD shape.
+    .pipe(z.iso.date("Please choose a valid travel date"))
     .refine((d) => d >= isoDay(-1), "Travel date cannot be in the past")
     .refine((d) => d <= isoDay(366), "Travel date must be within the next 12 months"),
   numberOfDays: intInRange("Number of days", 1, 30),

@@ -85,6 +85,15 @@ galaxy-time-tour/
 
 4. **Open [http://localhost:3000](http://localhost:3000) in your browser**
 
+5. **Check your changes before opening a PR**
+   ```bash
+   npm test             # unit tests (Vitest): form validation and the /api/form-submit guards
+   npm run type-check
+   npm run lint
+   npm run build
+   ```
+   Tests live next to the code as `*.test.ts` files under `src/`.
+
 ## 🎨 Features in Detail
 
 ### Booking System

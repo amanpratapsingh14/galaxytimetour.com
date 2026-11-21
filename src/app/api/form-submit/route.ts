@@ -68,12 +68,17 @@ export async function POST(req: NextRequest) {
   } catch {
     return json({ success: false, error: "Invalid request." }, 400)
   }
+  // Both forms send a JSON object; anything else (null, arrays, numbers, strings) is not a submission.
+  if (typeof payload !== "object" || payload === null || Array.isArray(payload)) {
+    return json({ success: false, error: "Invalid request." }, 400)
+  }
 
-  // Bots fill the hidden "website" field or submit instantly. Pretend success so they don't adapt.
-  const maybe = payload as { website?: unknown; startedAt?: unknown }
+  // Bots fill the hidden "website" field or submit instantly. Pretend success so they don't adapt,
+  // using the same reference style a real submission of that form would get.
+  const maybe = payload as { formType?: unknown; website?: unknown; startedAt?: unknown }
   const elapsed = typeof maybe.startedAt === "number" ? Date.now() - maybe.startedAt : -1
   if ((typeof maybe.website === "string" && maybe.website !== "") || elapsed < MIN_FILL_MS || elapsed > MAX_FORM_AGE_MS) {
-    return json({ success: true, reference: newReference("CT") })
+    return json({ success: true, reference: newReference(maybe.formType === "booking" ? "BK" : "CT") })
   }
 
   const parsed = formSchema.safeParse(payload)
