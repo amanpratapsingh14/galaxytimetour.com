@@ -1,54 +1,20 @@
-"use client"
+import { cn } from "@/lib/utils"
 
-import { motion, type HTMLMotionProps } from "motion/react"
+// Scroll reveals are pure CSS (see `.reveal` in globals.css): no JavaScript to download or
+// hydrate, content is never hidden waiting for scripts, and unsupported browsers show it as-is.
 
-const ease = [0.22, 1, 0.36, 1] as const
+type DivProps = React.ComponentProps<"div">
 
-type RevealProps = HTMLMotionProps<"div"> & {
-  delay?: number
-  y?: number
+/** Fades and lifts its children in as they scroll into view. */
+export function Reveal({ className, ...props }: DivProps) {
+  return <div className={cn("reveal", className)} {...props} />
 }
 
-/** Fades and lifts its children into view once, when scrolled into the viewport. */
-export function Reveal({ delay = 0, y = 24, children, ...props }: RevealProps) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.7, ease, delay }}
-      {...props}
-    >
-      {children}
-    </motion.div>
-  )
+/** Layout wrapper for <StaggerItem>s; each item reveals as it enters, which staggers naturally. */
+export function Stagger(props: DivProps) {
+  return <div {...props} />
 }
 
-/** Parent for <StaggerItem>s: reveals children one after another. */
-export function Stagger({ children, stagger = 0.08, ...props }: HTMLMotionProps<"div"> & { stagger?: number }) {
-  return (
-    <motion.div
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once: true, margin: "-60px" }}
-      variants={{ hidden: {}, show: { transition: { staggerChildren: stagger } } }}
-      {...props}
-    >
-      {children}
-    </motion.div>
-  )
-}
-
-export function StaggerItem({ children, ...props }: HTMLMotionProps<"div">) {
-  return (
-    <motion.div
-      variants={{
-        hidden: { opacity: 0, y: 24 },
-        show: { opacity: 1, y: 0, transition: { duration: 0.6, ease } },
-      }}
-      {...props}
-    >
-      {children}
-    </motion.div>
-  )
+export function StaggerItem({ className, ...props }: DivProps) {
+  return <div className={cn("reveal", className)} {...props} />
 }

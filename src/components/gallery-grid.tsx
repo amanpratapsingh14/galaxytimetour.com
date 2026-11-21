@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import Image from "next/image"
 import { ChevronLeft, ChevronRight, Expand, MapPin, X } from "lucide-react"
-import { AnimatePresence, motion } from "motion/react"
+import { AnimatePresence, m } from "motion/react"
 
 import { galleryPhotos, galleryPlaces } from "@/data/gallery"
 import { cn } from "@/lib/utils"
@@ -51,7 +51,7 @@ export function GalleryGrid() {
             }}
             className={cn("relative shrink-0 rounded-full border px-4 py-2 text-sm font-medium transition-colors", place === p ? "border-transparent text-white" : "hover:border-highlight/50")}
           >
-            {place === p && <motion.span layoutId="place-pill" className="bg-brand-gradient absolute inset-0 -z-10 rounded-full" />}
+            {place === p && <m.span layoutId="place-pill" className="bg-brand-gradient absolute inset-0 -z-10 rounded-full" />}
             {p}
           </button>
         ))}
@@ -59,7 +59,7 @@ export function GalleryGrid() {
 
       <div className="columns-2 gap-3 sm:columns-3 lg:columns-4">
         {visible.map((photo, i) => (
-          <motion.button
+          <m.button
             key={photo.src}
             type="button"
             onClick={() => setIndex(i)}
@@ -82,7 +82,7 @@ export function GalleryGrid() {
               <span className="flex items-center gap-1"><MapPin className="size-3.5" /> {photo.place}</span>
               <Expand className="size-4" />
             </span>
-          </motion.button>
+          </m.button>
         ))}
       </div>
 
@@ -96,7 +96,7 @@ export function GalleryGrid() {
 
       <AnimatePresence>
         {current && index !== null && (
-          <motion.div
+          <m.div
             role="dialog"
             aria-modal="true"
             aria-label="Photo viewer"
@@ -106,7 +106,7 @@ export function GalleryGrid() {
             className="fixed inset-0 z-[70] flex items-center justify-center bg-black/90 p-4 backdrop-blur-md"
             onClick={() => setIndex(null)}
           >
-            <motion.div
+            <m.div
               key={current.src}
               initial={{ opacity: 0, scale: 0.94 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -129,7 +129,7 @@ export function GalleryGrid() {
                 <span className="flex items-center gap-1.5"><MapPin className="size-4" /> {current.place}</span>
                 <span className="tabular-nums">{index + 1} / {filtered.length}</span>
               </p>
-            </motion.div>
+            </m.div>
 
             <button type="button" aria-label="Close" onClick={() => setIndex(null)} className="absolute top-4 right-4 grid size-11 place-items-center rounded-full bg-white/10 text-white hover:bg-white/20">
               <X />
@@ -140,7 +140,7 @@ export function GalleryGrid() {
             <button type="button" aria-label="Next photo" onClick={(e) => { e.stopPropagation(); go(1) }} className="absolute right-3 grid size-12 place-items-center rounded-full bg-white/10 text-white hover:bg-white/20 sm:right-6">
               <ChevronRight />
             </button>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </div>

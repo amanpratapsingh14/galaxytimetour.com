@@ -107,7 +107,6 @@
   --animate-marquee: marquee 40s linear infinite;
   --animate-kenburns: kenburns 18s ease-out both;
   --animate-float: float 7s ease-in-out infinite;
-  --animate-shine: shine 3s linear infinite;
 
   @keyframes twinkle {
     0%, 100% { opacity: 0.45; }
@@ -129,8 +128,13 @@
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-12px); }
   }
-  @keyframes shine {
-    to { background-position: 200% center; }
+  @keyframes rise {
+    from { transform: translate3d(0, 28px, 0); }
+    to { transform: none; }
+  }
+  @keyframes rise-fade {
+    from { opacity: 0; transform: translate3d(0, 28px, 0); }
+    to { opacity: 1; transform: none; }
   }
 }
 
@@ -173,13 +177,34 @@
     background-clip: text;
     color: transparent;
   }
+  /* Static on purpose: animating background-position repaints every frame (Lighthouse: non-composited). */
   .text-gradient-animated {
-    background-image: linear-gradient(100deg, var(--brand-magenta), var(--brand-violet), var(--brand-cyan), var(--brand-violet), var(--brand-magenta));
-    background-size: 200% auto;
+    background-image: linear-gradient(100deg, var(--brand-magenta), var(--brand-violet) 55%, var(--brand-cyan));
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    @apply animate-shine;
+  }
+
+  /*
+   * Entrance animations that need no JavaScript, so content paints with the HTML.
+   * .rise: transform only (safe for the LCP headline). .rise-fade: also fades in.
+   * Stagger with style={{ "--d": "120ms" }}.
+   */
+  .rise,
+  .rise-fade {
+    animation: rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) var(--d, 0ms) both;
+  }
+  .rise-fade {
+    animation-name: rise-fade;
+  }
+
+  /* Scroll reveal driven by CSS scroll timelines; browsers without support just show the content. */
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation: rise-fade linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 40%;
+    }
   }
   .bg-brand-gradient {
     background-image: linear-gradient(110deg, var(--brand-magenta), var(--brand-violet) 50%, var(--brand-cyan));

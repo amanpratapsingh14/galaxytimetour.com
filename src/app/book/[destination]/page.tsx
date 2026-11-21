@@ -100,7 +100,7 @@ export default async function DestinationPage({ params }: Props) {
             <SectionHeading align="left" eyebrow="Packages" title="Pick your pace" description="Both packages can be extended, combined with another city, or rebuilt from scratch." />
             <div className="space-y-4">
               {pkgs.map((p, i) => (
-                <Reveal key={p.id} delay={i * 0.08}>
+                <Reveal key={p.id}>
                   <details className="group overflow-hidden rounded-3xl border bg-card open:shadow-xl" open={i === 0}>
                     <summary className="flex cursor-pointer list-none items-center gap-4 p-4 sm:p-5 [&::-webkit-details-marker]:hidden">
                       <div className="relative size-20 shrink-0 overflow-hidden rounded-2xl sm:size-24">

@@ -36,6 +36,7 @@ export default function DestinationsPage() {
       />
 
       <section className="container py-16 md:py-20">
+        <h2 className="sr-only">All destinations</h2>
         <DestinationExplorer bentoLayout={false} />
       </section>
 
@@ -43,8 +44,8 @@ export default function DestinationsPage() {
         <div className="container space-y-12">
           <SectionHeading eyebrow="By region" title="Thailand at a glance" description="Each region has its own character. Mix two or three for the ultimate trip." />
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
-            {regions.map((r, i) => (
-              <Reveal key={r} delay={i * 0.06} className="rounded-3xl border bg-card p-6">
+            {regions.map((r) => (
+              <Reveal key={r} className="rounded-3xl border bg-card p-6">
                 <h3 className="text-lg font-bold">{r}</h3>
                 <p className="mt-2 text-sm text-muted-foreground">{regionNotes[r]}</p>
                 <p className="mt-4 flex flex-wrap gap-1.5">

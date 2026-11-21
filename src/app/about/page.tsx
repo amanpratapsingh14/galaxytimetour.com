@@ -3,6 +3,7 @@ import Image from "next/image"
 import { Award, Compass, HeartHandshake, Languages, ShieldCheck, Sparkles } from "lucide-react"
 
 import { CtaBand } from "@/components/cta-band"
+import { LazyVideo } from "@/components/lazy-video"
 import { Stats } from "@/components/home/stats"
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/reveal"
 import { PageHero } from "@/components/page-hero"
@@ -43,16 +44,11 @@ export default function AboutPage() {
       <section className="container grid items-center gap-12 py-20 lg:grid-cols-2 lg:gap-16">
         <Reveal className="relative">
           <div className="relative aspect-[4/3] overflow-hidden rounded-[2rem] border shadow-2xl">
-            <video
+            <LazyVideo
               className="absolute inset-0 size-full object-cover"
               src="/Videos/about_vid_1.mp4"
-              poster="/hero_image.webp"
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="metadata"
-              aria-label="Galaxy Time Tour travel highlights"
+              poster="/_next/image?url=%2Fhero_image.webp&w=828&q=75"
+              label="Galaxy Time Tour travel highlights"
             />
           </div>
           <div className="glass absolute -bottom-6 -left-4 flex items-center gap-3 rounded-2xl p-4 shadow-xl sm:-left-8">
@@ -65,7 +61,7 @@ export default function AboutPage() {
         </Reveal>
         <div className="space-y-6">
           <SectionHeading align="left" eyebrow="Our story" title="More than a trip — a story you'll keep telling" />
-          <Reveal delay={0.1} className="space-y-4 text-muted-foreground">
+          <Reveal className="space-y-4 text-muted-foreground">
             <p>
               Our journey began in 2009 with a simple yet powerful vision: to transform how people experience Thailand.
               We believe travel should be more than visiting new places — it should create meaningful connections and
@@ -109,9 +105,9 @@ export default function AboutPage() {
           </Reveal>
         </div>
         <ol className="relative space-y-8 border-l border-dashed pl-8">
-          {milestones.map((m, i) => (
+          {milestones.map((m) => (
             <li key={m.year} className="relative">
-              <Reveal delay={i * 0.08}>
+              <Reveal>
                 <span className="bg-brand-gradient absolute top-1 -left-[42px] grid size-5 place-items-center rounded-full ring-4 ring-background">
                   <Sparkles className="size-3 text-white" />
                 </span>

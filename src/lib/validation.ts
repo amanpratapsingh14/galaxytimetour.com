@@ -3,6 +3,10 @@ import { z } from "zod"
 import { destinations } from "@/data/destinations"
 import { allPackages } from "@/data/packages"
 
+// Zod v4 probes `new Function` to JIT-compile validators; our CSP (correctly) forbids eval,
+// which logs a CSP violation in the browser. Jitless mode skips the probe.
+z.config({ jitless: true })
+
 // Shared by the client forms (instant feedback) and /api/form-submit (the real gate).
 
 const name = (label: string) =>

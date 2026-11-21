@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { AnimatePresence, motion } from "motion/react"
+import { AnimatePresence, m } from "motion/react"
 
 import { DestinationCard } from "@/components/destination-card"
 import { destinations, type DestinationVibe } from "@/data/destinations"
@@ -32,17 +32,17 @@ export function DestinationExplorer({ bentoLayout = true }: { bentoLayout?: bool
             )}
           >
             {vibe === v && (
-              <motion.span layoutId="vibe-pill" className="bg-brand-gradient absolute inset-0 -z-10 rounded-full" transition={{ type: "spring", stiffness: 400, damping: 34 }} />
+              <m.span layoutId="vibe-pill" className="bg-brand-gradient absolute inset-0 -z-10 rounded-full" transition={{ type: "spring", stiffness: 400, damping: 34 }} />
             )}
             {v}
           </button>
         ))}
       </div>
 
-      <motion.div layout className="grid auto-rows-[18rem] grid-flow-dense grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <m.div layout className="grid auto-rows-[18rem] grid-flow-dense grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <AnimatePresence mode="popLayout">
           {list.map((d, i) => (
-            <motion.div
+            <m.div
               key={d.id}
               layout
               initial={{ opacity: 0, scale: 0.94 }}
@@ -52,10 +52,10 @@ export function DestinationExplorer({ bentoLayout = true }: { bentoLayout?: bool
               className={cn("flex", useBento && bento[i])}
             >
               <DestinationCard destination={d} className="w-full" eager={i < 2} />
-            </motion.div>
+            </m.div>
           ))}
         </AnimatePresence>
-      </motion.div>
+      </m.div>
     </div>
   )
 }
